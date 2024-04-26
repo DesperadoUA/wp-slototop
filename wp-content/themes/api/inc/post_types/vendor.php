@@ -1,21 +1,21 @@
 <?php
-add_action( 'init', 'register_post_types_casino' );
-function register_post_types_casino(){
-    register_post_type( 'casino', [
+add_action( 'init', 'register_post_types_vendor' );
+function register_post_types_vendor(){
+    register_post_type( 'vendor', [
         'label'  => null,
         'labels' => [
-            'name'               => 'Casino', // основное название для типа записи
-            'singular_name'      => 'casino', // название для одной записи этого типа
-            'add_new'            => 'Добавить казино', // для добавления новой записи
-            'add_new_item'       => 'Добавление казино', // заголовка у вновь создаваемой записи в админ-панели.
-            'edit_item'          => 'Редактирование казино', // для редактирования типа записи
-            'new_item'           => 'Новое казино', // текст новой записи
+            'name'               => 'vendor', // основное название для типа записи
+            'singular_name'      => 'vendor', // название для одной записи этого типа
+            'add_new'            => 'Добавить Vendor', // для добавления новой записи
+            'add_new_item'       => 'Добавление Vendor', // заголовка у вновь создаваемой записи в админ-панели.
+            'edit_item'          => 'Редактирование Vendor', // для редактирования типа записи
+            'new_item'           => 'Новый Vendor', // текст новой записи
             'view_item'          => 'Смотреть страницу', // для просмотра записи этого типа.
             'search_items'       => 'Искать запись', // для поиска по этим типам записи
             'not_found'          => 'Не найдено', // если в результате поиска ничего не было найдено
             'not_found_in_trash' => 'Не найдено в корзине', // если не было найдено в корзине
             'parent_item_colon'  => '', // для родителей (у древовидных типов)
-            'menu_name'          => 'Casinos', // название меню
+            'menu_name'          => 'Vendors', // название меню
         ],
         'description'         => '',
         'public'              => true,
@@ -33,7 +33,7 @@ function register_post_types_casino(){
         'query_var'           => true,
     ] );
 }
-function casino_custom_fields() {
-    add_post_type_support( 'casino', 'custom-fields'); // в качестве первого параметра укажите название типа поста
+function vendor_custom_fields() {
+    add_post_type_support( 'vendor', 'custom-fields'); // в качестве первого параметра укажите название типа поста
 }
-add_action('init', 'casino_custom_fields');
+add_action('init', 'vendor_custom_fields');
