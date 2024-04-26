@@ -5,6 +5,7 @@ include 'inc/helpers.php';
 include 'inc/headers.php';
 include 'inc/post_types/index.php';
 include 'components/index.php';
+include 'inc/relatives/index.php';
 add_theme_support( 'post-thumbnails' );
 add_theme_support('menus');
 add_filter('wp_insert_post_data', function ($data, $postarr) { $data['post_content'] = wpautop($data['post_content']); return $data; }, 10, 2);
