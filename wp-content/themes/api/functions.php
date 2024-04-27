@@ -1,10 +1,11 @@
 <?php
 define('ROOT_DIR', __DIR__);
 define('NUMBER_BONUSES_MAIN_SLIDER', 10);
-include 'inc/helpers.php';
+define('ALL_POST_TYPES', ['posts', 'page', 'casino', 'slot', 'bonus', 'country', 'currency', 'language', 'license', 'payment', 'poker', 'technology', 'type_bonus', 'type_payment', 'vendor']);
 include 'inc/headers.php';
 include 'inc/post_types/index.php';
 include 'components/index.php';
+include 'inc/fields/index.php';
 include 'inc/relatives/index.php';
 add_theme_support( 'post-thumbnails' );
 add_theme_support('menus');

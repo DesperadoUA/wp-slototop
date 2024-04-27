@@ -4,7 +4,7 @@ use Carbon_Fields\Field;
 
 add_action( 'carbon_fields_register_fields', 'ref' );
 function ref() {
-    $arrPostTypes = ['casino', 'game'];
+    $arrPostTypes = ['casino', 'slot', 'poker'];
     Container::make( 'post_meta', __( 'Ref' ) )
     ->show_on_post_type($arrPostTypes)
     ->add_fields(array(
