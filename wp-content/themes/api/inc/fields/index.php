@@ -1,5 +1,6 @@
 <?php
 include 'simple_fields.php';
+include 'meta_fields.php';
 include 'simple_img.php';
 include 'ref.php';
 include 'faq.php';

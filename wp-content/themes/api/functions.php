@@ -1,6 +1,5 @@
 <?php
 define('ROOT_DIR', __DIR__);
-define('NUMBER_BONUSES_MAIN_SLIDER', 10);
 define('ALL_POST_TYPES', ['posts', 'page', 'casino', 'slot', 'bonus', 'country', 'currency', 'language', 'license', 'payment', 'poker', 'technology', 'type_bonus', 'type_payment', 'vendor']);
 include 'inc/headers.php';
 include 'inc/post_types/index.php';

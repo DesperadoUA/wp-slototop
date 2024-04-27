@@ -1,3 +1,4 @@
 /node_modules
 /.idea
 wp-config.php
+/wp-content/themes/api/app/migrations/
