@@ -3,20 +3,6 @@
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
-add_action('carbon_fields_register_fields', 'meta_fields');
-function meta_fields()
-{
-    $arrPostTypes = ['posts', 'page', 'casino', 'slot'];
-    /*--------------------------Add fields on posts----------------------------------------*/
-    Container::make('post_meta', 'Post Meta')
-        ->show_on_post_type($arrPostTypes)
-        ->add_fields(array(
-            Field::make('text', 'meta_title', 'Meta title'),
-            Field::make('text', 'meta_description', 'Meta description'),
-            Field::make('text', 'meta_keywords', 'Meta keywords')
-        ));
-}
-
 add_action('carbon_fields_register_fields', 'headers_meta_lang');
 function headers_meta_lang()
 {
