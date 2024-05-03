@@ -17,11 +17,13 @@ function langsAdapter($arr) {
     foreach ($arr as $item) $data[] = ['title' => $LANG[$item]['title']];
     return $data;
 }
+/*
 function refAdapter($arr) {
     $data = [];
     foreach ($arr as $item) $data[] = $item['casino_ref'];
     return $data;
 }
+*/
 function paymentAdapter($arr) {
     $siteUrl = get_site_url();
     $PAYMENTS = include(ROOT_DIR.'/configs/payment.php');

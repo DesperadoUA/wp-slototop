@@ -1,1 +1,1 @@
-# only-ua-api
+# wp-slototop

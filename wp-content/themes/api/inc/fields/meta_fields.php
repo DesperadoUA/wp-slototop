@@ -10,9 +10,9 @@ function headers_meta_lang() {
         ->add_fields(array(
             Field::make( 'complex', 'headers_meta_lang' )
                 ->add_fields( array(
-                        Field::make( 'select', 'headers_lang', 'Headers lang' )
+                        Field::make( 'select', 'lang', 'Headers lang' )
                             ->add_options( array('ru-UA' => 'ru-UA', 'uk-UA' => 'uk-UA') ),
-                        Field::make('text', 'headers_link', 'Ссылка на страницу'),
+                        Field::make('text', 'link', 'Ссылка на страницу'),
                     )
                 )
         ));

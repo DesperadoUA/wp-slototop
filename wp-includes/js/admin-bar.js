@@ -22,7 +22,6 @@
 			shortlink,
 			skipLink,
 			mobileEvent,
-			fontFaceRegex,
 			adminBarSearchInput,
 			i;
 
@@ -32,12 +31,11 @@
 
 		topMenuItems = adminBar.querySelectorAll( 'li.menupop' );
 		allMenuItems = adminBar.querySelectorAll( '.ab-item' );
-		adminBarLogout = document.getElementById( 'wp-admin-bar-logout' );
+		adminBarLogout = document.querySelector( '#wp-admin-bar-logout a' );
 		adminBarSearchForm = document.getElementById( 'adminbarsearch' );
 		shortlink = document.getElementById( 'wp-admin-bar-get-shortlink' );
 		skipLink = adminBar.querySelector( '.screen-reader-shortcut' );
 		mobileEvent = /Mobile\/.+Safari/.test( navigator.userAgent ) ? 'touchstart' : 'click';
-		fontFaceRegex = /Android (1.0|1.1|1.5|1.6|2.0|2.1)|Nokia|Opera Mini|w(eb)?OSBrowser|webOS|UCWEB|Windows Phone OS 7|XBLWP7|ZuneWP7|MSIE 7/;
 
 		// Remove nojs class after the DOM is loaded.
 		removeClass( adminBar, 'nojs' );
@@ -111,15 +109,6 @@
 			window.scrollBy( 0, -32 );
 		}
 
-		// Add no-font-face class to body if needed.
-		if (
-			navigator.userAgent &&
-			fontFaceRegex.test( navigator.userAgent ) &&
-			! hasClass( document.body, 'no-font-face' )
-		) {
-			addClass( document.body, 'no-font-face' );
-		}
-
 		// Clear sessionStorage on logging out.
 		if ( adminBarLogout ) {
 			adminBarLogout.addEventListener( 'click', emptySessionStorage );
@@ -160,7 +149,8 @@
 	function toggleHoverIfEnter( event ) {
 		var wrapper;
 
-		if ( event.which !== 13 ) {
+		// Follow link if pressing Ctrl and/or Shift with Enter (opening in a new tab or window).
+		if ( event.which !== 13 || event.ctrlKey || event.shiftKey ) {
 			return;
 		}
 
@@ -305,8 +295,8 @@
 	 * @since 5.3.1
 	 *
 	 * @param {HTMLElement} element The HTML element.
-	 * @param {String}      className The class name.
-	 * @return {bool} Whether the element has the className.
+	 * @param {string}      className The class name.
+	 * @return {boolean} Whether the element has the className.
 	 */
 	function hasClass( element, className ) {
 		var classNames;
@@ -331,7 +321,7 @@
 	 * @since 5.3.1
 	 *
 	 * @param {HTMLElement} element The HTML element.
-	 * @param {String}      className The class name.
+	 * @param {string}      className The class name.
 	 */
 	function addClass( element, className ) {
 		if ( ! element ) {
@@ -347,6 +337,11 @@
 
 			element.className += className;
 		}
+
+		var menuItemToggle = element.querySelector( 'a' );
+		if ( className === 'hover' && menuItemToggle && menuItemToggle.hasAttribute( 'aria-expanded' ) ) {
+			menuItemToggle.setAttribute( 'aria-expanded', 'true' );
+		}
 	}
 
 	/**
@@ -355,7 +350,7 @@
 	 * @since 5.3.1
 	 *
 	 * @param {HTMLElement} element The HTML element.
-	 * @param {String}      className The class name.
+	 * @param {string}      className The class name.
 	 */
 	function removeClass( element, className ) {
 		var testName,
@@ -376,6 +371,11 @@
 			}
 
 			element.className = classes.replace( /^[\s]+|[\s]+$/g, '' );
+		}
+
+		var menuItemToggle = element.querySelector( 'a' );
+		if ( className === 'hover' && menuItemToggle && menuItemToggle.hasAttribute( 'aria-expanded' ) ) {
+			menuItemToggle.setAttribute( 'aria-expanded', 'false' );
 		}
 	}
 

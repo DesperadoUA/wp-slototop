@@ -16,7 +16,7 @@ function input_fields() {
             'container_label' => 'Meta description',
             'label' => 'Meta description',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'meta_description',
+            'key' => 'description',
             'editor' => 'text',
             'default' => ''
         ],
@@ -24,7 +24,7 @@ function input_fields() {
             'container_label' => 'Meta keywords',
             'label' => 'Meta keywords',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'meta_keywords',
+            'key' => 'keywords',
             'editor' => 'text',
             'default' => ''
         ],
@@ -75,7 +75,6 @@ function input_fields() {
             'key' => 'phone',
             'editor' => 'text',
             'default' => '',
-            'default' => ''
         ],
         [
             'container_label' => 'Rating',
@@ -97,7 +96,7 @@ function input_fields() {
             'container_label' => 'Min dep',
             'label' => 'Min dep',
             'post_types' => ['casino', 'poker'],
-            'key' => 'min_dep',
+            'key' => 'min_deposit',
             'editor' => 'text',
             'default' => ''
         ],
@@ -113,7 +112,7 @@ function input_fields() {
             'container_label' => 'Min payment',
             'label' => 'Min payment',
             'post_types' => ['casino', 'poker'],
-            'key' => 'min_payment',
+            'key' => 'min_payments',
             'editor' => 'text',
             'default' => ''
         ],
