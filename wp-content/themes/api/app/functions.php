@@ -92,7 +92,52 @@ function parseAmpContent($content) {
 */
 /* Settings */
 function getSettings() {
-    return "Hello world";
+    return [
+        [
+            'key' => SETTINGS_KEYS['FOOTER_TEXT'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['FOOTER_TEXT'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['HEADER_MENU'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['HEADER_MENU'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['FOOTER_MENU'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['FOOTER_MENU'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['MAIN_PAGE_FAQ'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['MAIN_PAGE_FAQ'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['PARTNERS_MENU'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['PARTNERS_MENU'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['CASINO_PAGE_FAQ'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['CASINO_PAGE_FAQ'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['BONUS_PAGE_FAQ'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['BONUS_PAGE_FAQ'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['POKER_PAGE_FAQ'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['POKER_PAGE_FAQ'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['BANNER'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['BANNER'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['GAME_PAGE_FAQ'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['GAME_PAGE_FAQ'] ),
+        ],
+        [
+            'key' => SETTINGS_KEYS['SOCIAL_LINKS_AUTHOR'],
+            'value' => carbon_get_theme_option( SETTINGS_KEYS['SOCIAL_LINKS_AUTHOR'] ),
+        ],
+    ];
 }
 /* Options */
 function getOptions() {

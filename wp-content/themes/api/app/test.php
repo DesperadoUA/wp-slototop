@@ -2,5 +2,5 @@
 include $_SERVER['DOCUMENT_ROOT'].'/wp-config.php';
 include 'functions.php';
 $response['confirm'] = SUCCESS_STATUS;
-$response['body'] = getOptions();
+$response['body'] = getSettings();
 echo json_encode($response);
