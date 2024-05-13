@@ -1,6 +1,8 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/wp-config.php';
 include  APP_DIR.'functions.php';
+$response['confirm'] = SUCCESS_STATUS;
+/*
 $response['main_page_text'] = carbon_get_theme_option('main_page_text');
 $response['footer_text'] = carbon_get_theme_option( 'footer_text' );
 $response['footer_desc'] = carbon_get_theme_option( 'footer_desc' );
@@ -12,4 +14,6 @@ $response['filters']['currency_filters']  = array_values(include(ROOT_DIR.'/conf
 $response['filters']['vendors_filters']   = array_values(include(ROOT_DIR.'/configs/vendors.php'));
 $response['filters']['languages_filters'] = array_values(include(ROOT_DIR.'/configs/languages.php'));
 $response['filters']['payments_filters']  = array_values(include(ROOT_DIR.'/configs/payment.php'));
+*/
+$response['body'] = getOptions();
 echo json_encode($response);

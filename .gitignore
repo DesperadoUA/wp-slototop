@@ -3,3 +3,5 @@
 wp-config.php
 /wp-content/themes/api/app/migrations/
 /downloads
+/uploads
+/wp-content/uploads/

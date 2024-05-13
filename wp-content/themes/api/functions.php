@@ -1,9 +1,11 @@
 <?php
 define('ROOT_DIR', __DIR__);
 define('ALL_POST_TYPES', ['posts', 'page', 'casino', 'slot', 'bonus', 'country', 'currency', 'language', 'license', 'payment', 'poker', 'technology', 'type_bonus', 'type_payment', 'vendor']);
+define('SUCCESS_STATUS', 'ok');
+define('ERROR_STATUS', 'error');
+define('HOST_URL', get_site_url( null, '', 'http' ));
 include 'inc/headers.php';
 include 'inc/post_types/index.php';
-include 'components/index.php';
 include 'inc/fields/index.php';
 include 'inc/relatives/index.php';
 add_theme_support( 'post-thumbnails' );

@@ -1,5 +1,11 @@
 <?php
 /* adapters */
+function optionsRefAdapter($arr) {
+    $data = [];
+    foreach ($arr as $item) $data[] = $item['link'];
+    return $data;
+}
+/*
 function advantagesAdapter($arr) {
     $data = [];
     foreach ($arr as $item) $data[] = $item['advantages'];
@@ -17,6 +23,7 @@ function langsAdapter($arr) {
     foreach ($arr as $item) $data[] = ['title' => $LANG[$item]['title']];
     return $data;
 }
+*/
 /*
 function refAdapter($arr) {
     $data = [];
@@ -24,6 +31,7 @@ function refAdapter($arr) {
     return $data;
 }
 */
+/*
 function paymentAdapter($arr) {
     $siteUrl = get_site_url();
     $PAYMENTS = include(ROOT_DIR.'/configs/payment.php');
@@ -38,7 +46,9 @@ function vendorAdapter($arr) {
     foreach ($arr as $item) $data[] = ['thumbnail' => $siteUrl.$VENDORS[$item]['src'], 'title' => $VENDORS[$item]['title']];
     return $data;
 }
+*/
 /* adapters */
+/*
 function parseAmpContent($content) {
     if(IS_AMP) {
         $content = str_replace('<picture></picture>', '', $content);
@@ -79,7 +89,26 @@ function parseAmpContent($content) {
     }
     return $content;
 }
+*/
+/* Settings */
+function getSettings() {
+    return "Hello world";
+}
+/* Options */
+function getOptions() {
+    return [
+        [
+            'key' => OPTIONS_KEYS['LOGO'],
+            'value' => carbon_get_theme_option( OPTIONS_KEYS['LOGO'] ),
+        ],
+        [
+            'key' => OPTIONS_KEYS['GLOBAL_REF'],
+            'value' => optionsRefAdapter(carbon_get_theme_option( OPTIONS_KEYS['GLOBAL_REF'] ))
+        ]
+    ];
+}
 /* Post cards */
+/*
 function get_main_bonus_card_data($arr_id) {
     $data_posts = [];
     foreach ($arr_id as $item) {
@@ -157,9 +186,11 @@ function get_casino_card_data($arr_id) {
     }
     return $data_posts;
 }
+*/
 /* Post cards end */
 
 /* Single posts */
+/*
 function get_single_casino_data($id){
     $data_post = [];
     $current_data = get_post($id);
@@ -252,9 +283,11 @@ function get_page_data($id) {
     }
     return $data_post;
 }
+*/
 /* Single posts end */
 
 /* Support functions */
+/*
 function url_to_post_id($url, $post_type) {
     $query = new WP_Query( array(
         'post_type'         => $post_type,
@@ -335,4 +368,5 @@ function get_headers_lang($id){
     }
     return $headers;
 }
+*/
 /* Support functions end */
