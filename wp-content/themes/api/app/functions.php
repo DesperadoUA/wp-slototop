@@ -1,8 +1,67 @@
 <?php
+class Relative {
+    static function getRelativeOrderByRating($postId, $relativePostType, $relativeKey) {
+        $postsIds = [];
+        $query = new WP_Query( array(
+            'posts_per_page' => -1,
+            'post_type'    => $relativePostType,
+            'post_status'  => 'publish',
+            'meta_query' => array(
+                'relative' => array(
+                    'key'   => '_'.$relativeKey,
+                    'value' => $postId,
+                ),
+                'rating' => array(
+                    'key'  => '_rating',
+                    'type' => 'NUMERIC'
+                )
+            ),
+            'orderby' => ['rating'=>'DESC']
+        ));
+        if(!empty($query->posts)) {
+            foreach ($query->posts as $item) $postsIds[] = $item->ID;
+        }
+        return $postsIds;
+    }
+}
+class BaseService  {
+    public $currentPost;
+	function __construct($id) {
+        $this->currentPost = get_post($id);
+    }
+    function commonData() {
+        return [
+            'id'           => $this->currentPost->ID,
+            'status'       => 'public',
+            'title'        => $this->currentPost->post_title,
+            'meta_title'   => carbon_get_post_meta($this->currentPost->ID, 'meta_title'),
+            'description'  => carbon_get_post_meta($this->currentPost->ID, 'description'),
+            'keywords'     => carbon_get_post_meta($this->currentPost->ID, 'keywords'),
+            'h1'           => carbon_get_post_meta($this->currentPost->ID, 'h1'),
+            'content'      => $this->currentPost->post_content,
+            'amp_content'  => parseAmpContent($this->currentPost->post_content),
+            'thumbnail'    => get_the_post_thumbnail_url($this->currentPost->ID, 'full'),
+            'created_at'   => $this->currentPost->post_date,
+            'updated_at'   => $this->currentPost->post_modified,
+            'index_seo'    => (int)carbon_get_post_meta($this->currentPost->ID, 'index_seo'),
+            'follow'       => (int)carbon_get_post_meta($this->currentPost->ID, 'follow'),
+            'short_desc'   => carbon_get_post_meta($this->currentPost->ID, 'short_desc'),
+            'permalink'    => $this->currentPost->post_name,
+            'hreflang'     => carbon_get_post_meta($this->currentPost->ID, 'headers_meta_lang'),
+            'author_name'  => carbon_get_post_meta(AUTHOR_PAGE_ID, 'h1'),
+        ];
+    }
+}
+
 /* adapters */
 function optionsRefAdapter($arr) {
     $data = [];
     foreach ($arr as $item) $data[] = $item['link'];
+    return $data;
+}
+function postRefAdapter($arr) {
+    $data = [];
+    foreach ($arr as $item) $data[] = $item['ref_link'];
     return $data;
 }
 /*
@@ -48,48 +107,43 @@ function vendorAdapter($arr) {
 }
 */
 /* adapters */
-/*
 function parseAmpContent($content) {
-    if(IS_AMP) {
-        $content = str_replace('<picture></picture>', '', $content);
-        preg_match_all('|<picture>(.+?)<\/picture>|is', $content, $contentPictureData);
-        for($i=0; $i<count($contentPictureData); $i++) {
-            $content = str_replace($contentPictureData[$i], '', $content);
-        }
-        $parseImages = preg_match_all('/<img.*?src="([^"]+)".*?(?:data-original="([^"]+)".*?)?>/i', $content, $contentImagesData);
-        $ampImageArr = [];
-        foreach ($contentImagesData[0] as $key => $contentImageData) {
-            $imageSrc = !empty($contentImagesData[1][$key]) ? $contentImagesData[1][$key] : '';
-            $imageSrc = !empty($contentImagesData[2][$key]) ? $contentImagesData[2][$key] : $imageSrc;
-            $imageInfo = getimagesize( $imageSrc);
-            $imageSize = !empty($imageInfo[3]) ? $imageInfo[3] : 'width="520" height="180"';
-            $imageAlt =  preg_match('/<img.*?alt="([^"]+).*?>/i', $contentImageData, $parseAlt);
-            $imageAlt = !empty($parseAlt[1]) ? 'alt="' . $parseAlt[1]  . '"' : '';
-            $ampImage = '<amp-img layout="responsive" ';
-            $ampImage .= $imageSize;
-            $ampImage .= ' src="' . $imageSrc . '"';
-            $ampImage .= $imageAlt;
-            $ampImage .= '></amp-img>';
-            $replaceString = htmlentities($contentImageData);
-            $content = str_replace($contentImageData, $ampImage, $content);
-        }
-        $parsedLinks = preg_match_all('/<a.*?href="([^"]+)".*?>.*?<\/a>/i', $content, $contentLinksData);
-        foreach ($contentLinksData[0] as $key => $linkData){
-            if ( strpos($contentLinksData[1][$key] ,'#')  !== 0 && !strpos($contentLinksData[1][$key] ,'amp')){
-                if(strpos($contentLinksData[1][$key] ,'http')  !== 0 && $contentLinksData[1][$key] !== '/go/') {
-                    $content = str_replace('href="' . $contentLinksData[1][$key] . '"', 'href="/amp' . rtrim($contentLinksData[1][$key], '/') . '/"', $content);
-                }
+    $content = str_replace('<picture></picture>', '', $content);
+    preg_match_all('|<picture>(.+?)<\/picture>|is', $content, $contentPictureData);
+    for($i=0; $i<count($contentPictureData); $i++) {
+        $content = str_replace($contentPictureData[$i], '', $content);
+    }
+    $parseImages = preg_match_all('/<img.*?src="([^"]+)".*?(?:data-original="([^"]+)".*?)?>/i', $content, $contentImagesData);
+    $ampImageArr = [];
+    foreach ($contentImagesData[0] as $key => $contentImageData) {
+        $imageSrc = !empty($contentImagesData[1][$key]) ? $contentImagesData[1][$key] : '';
+        $imageSrc = !empty($contentImagesData[2][$key]) ? $contentImagesData[2][$key] : $imageSrc;
+        $imageInfo = getimagesize( $imageSrc);
+        $imageSize = !empty($imageInfo[3]) ? $imageInfo[3] : 'width="520" height="180"';
+        $imageAlt =  preg_match('/<img.*?alt="([^"]+).*?>/i', $contentImageData, $parseAlt);
+        $imageAlt = !empty($parseAlt[1]) ? 'alt="' . $parseAlt[1]  . '"' : '';
+        $ampImage = '<amp-img layout="responsive" ';
+        $ampImage .= $imageSize;
+        $ampImage .= ' src="' . $imageSrc . '"';
+        $ampImage .= $imageAlt;
+        $ampImage .= '></amp-img>';
+        $replaceString = htmlentities($contentImageData);
+        $content = str_replace($contentImageData, $ampImage, $content);
+    }
+    $parsedLinks = preg_match_all('/<a.*?href="([^"]+)".*?>.*?<\/a>/i', $content, $contentLinksData);
+    foreach ($contentLinksData[0] as $key => $linkData){
+        if ( strpos($contentLinksData[1][$key] ,'#')  !== 0 && !strpos($contentLinksData[1][$key] ,'amp')){
+            if(strpos($contentLinksData[1][$key] ,'http')  !== 0 && $contentLinksData[1][$key] !== '/go/') {
+                $content = str_replace('href="' . $contentLinksData[1][$key] . '"', 'href="/amp' . rtrim($contentLinksData[1][$key], '/') . '/"', $content);
             }
         }
-        $content = str_replace('<iframe', '<amp-iframe', $content);
-        $content = str_replace('</iframe', '</amp-iframe', $content);
-        $content = str_replace("100%", '300px', $content);
-        $content = preg_replace('/xml:lang=".*?"/i', '', $content);
-        return $content;
     }
+    $content = str_replace('<iframe', '<amp-iframe', $content);
+    $content = str_replace('</iframe', '</amp-iframe', $content);
+    $content = str_replace("100%", '300px', $content);
+    $content = preg_replace('/xml:lang=".*?"/i', '', $content);
     return $content;
 }
-*/
 /* Settings */
 function getSettings() {
     return [
@@ -201,37 +255,65 @@ function get_aside_bonus_card_data($arr_id) {
     }
     return $data_posts;
 }
+*/
 function get_casino_card_data($arr_id) {
     $data_posts = [];
     foreach ($arr_id as $item) {
-        $advantagesData = carbon_get_post_meta($item, 'advantages');
+        $post = get_post( $item );
         $refData = carbon_get_post_meta($item, 'ref');
-        $paymentsData = carbon_get_post_meta($item, 'relative_pay_out');
-        $vendorsData = carbon_get_post_meta($item, 'relative_vendor');
-        $languagesData = carbon_get_post_meta($item, 'relative_languages');
-        $currencyData = carbon_get_post_meta($item, 'relative_currency');
+        $licenseIds = carbon_get_post_meta($item, 'relative_license');
+        $licenses = [];
+        if(!empty($licenseIds)) {
+            $post = get_post( $licenseIds[0] );
+            $licenses = [
+                'title' => $post->post_title
+            ]; 
+        }
         $data_posts[] = [
-            'id'               => $item,
-            'title'            => get_the_title($item),
-            'ref'              => refAdapter($refData),
-            'rating'           => carbon_get_post_meta($item, 'rating'),
-            'bonus_value'      => carbon_get_post_meta($item, 'bonus_value'),
-            'min_dep'          => carbon_get_post_meta($item, 'min_dep'),
-            'wager'            => carbon_get_post_meta($item, 'wager'),
-            'color'            => carbon_get_post_meta($item, 'color'),
-            'advantages'       => advantagesAdapter($advantagesData),
-            'permalink'        => get_short_link($item),
-            'thumbnail'        => get_the_post_thumbnail_url($item, 'full'),
-            'label'            => carbon_get_post_meta($item, 'marker'),
-            'payments'         => paymentAdapter($paymentsData),
-            'vendors'          => vendorAdapter($vendorsData),
-            'langs'            => langsAdapter($languagesData),
-            'currency'         => currenciesAdapter($currencyData)
+            'title'     => get_the_title($item),
+            'ref'       => postRefAdapter($refData),
+            'rating'    => carbon_get_post_meta($item, 'rating'),
+            'permalink' => "/casino/".$post->post_name,
+            'thumbnail' => get_the_post_thumbnail_url($item, 'full'),
+            'close'     => (int)carbon_get_post_meta($item, 'close'),
+            'licenses'  => $licenses
         ];
     }
     return $data_posts;
 }
-*/
+function get_slot_card_data($arr_id) {
+    $data_posts = [];
+    foreach ($arr_id as $item) {
+        $post = get_post( $item );
+        $vendorsIds = carbon_get_post_meta($item, 'relative_vendor');
+        $vendor = [];
+        if(!empty($vendorsIds)) {
+            $post = get_post( $vendorsIds[0] );
+            $vendor = [
+                'title' => $post->post_title
+            ]; 
+        }
+        $data_posts[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/game/".$post->post_name,
+            'thumbnail' => get_the_post_thumbnail_url($item, 'full'),
+            'vendor'    => $vendor
+        ];
+    }
+    return $data_posts;
+}
+function get_country_card_data($arr_id) {
+    $data_posts = [];
+    foreach ($arr_id as $item) {
+        $post = get_post( $item );
+        $data_posts[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/country/".$post->post_name,
+            'thumbnail' => get_the_post_thumbnail_url($item, 'full'),
+        ];
+    }
+    return $data_posts;
+}
 /* Post cards end */
 
 /* Single posts */
@@ -342,9 +424,9 @@ function url_to_post_id($url, $post_type) {
     if(!isset($query->post)) return 0;
     else return $query->post->ID;
 }
-function get_short_link($id) {
-    return str_replace(HOST_URL, '', get_permalink($id));
-}
+*/
+
+/*
 function get_public_post_id($post_type) {
     $arr_id = [];
     $query = new WP_Query( array(
