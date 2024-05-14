@@ -257,7 +257,7 @@ function get_aside_bonus_card_data($arr_id) {
 }
 */
 function get_casino_card_data($arr_id) {
-    $data_posts = [];
+    $data = [];
     foreach ($arr_id as $item) {
         $post = get_post( $item );
         $refData = carbon_get_post_meta($item, 'ref');
@@ -269,20 +269,20 @@ function get_casino_card_data($arr_id) {
                 'title' => $post->post_title
             ]; 
         }
-        $data_posts[] = [
+        $data[] = [
             'title'     => get_the_title($item),
             'ref'       => postRefAdapter($refData),
-            'rating'    => carbon_get_post_meta($item, 'rating'),
+            'rating'    => (int)carbon_get_post_meta($item, 'rating'),
             'permalink' => "/casino/".$post->post_name,
-            'thumbnail' => get_the_post_thumbnail_url($item, 'full'),
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
             'close'     => (int)carbon_get_post_meta($item, 'close'),
             'licenses'  => $licenses
         ];
     }
-    return $data_posts;
+    return $data;
 }
 function get_slot_card_data($arr_id) {
-    $data_posts = [];
+    $data = [];
     foreach ($arr_id as $item) {
         $post = get_post( $item );
         $vendorsIds = carbon_get_post_meta($item, 'relative_vendor');
@@ -293,26 +293,51 @@ function get_slot_card_data($arr_id) {
                 'title' => $post->post_title
             ]; 
         }
-        $data_posts[] = [
+        $data[] = [
             'title'     => get_the_title($item),
             'permalink' => "/game/".$post->post_name,
-            'thumbnail' => get_the_post_thumbnail_url($item, 'full'),
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
             'vendor'    => $vendor
         ];
     }
-    return $data_posts;
+    return $data;
 }
-function get_country_card_data($arr_id) {
-    $data_posts = [];
+function get_currency_card_data($arr_id) {
+    $data = [];
     foreach ($arr_id as $item) {
         $post = get_post( $item );
-        $data_posts[] = [
+        $data[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/currency/".$post->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
+            'sub_title' => carbon_get_post_meta($item, 'sub_title')
+        ];
+    }
+    return $data;
+}
+function get_country_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $post = get_post( $item );
+        $data[] = [
             'title'     => get_the_title($item),
             'permalink' => "/country/".$post->post_name,
             'thumbnail' => get_the_post_thumbnail_url($item, 'full'),
         ];
     }
-    return $data_posts;
+    return $data;
+}
+function get_type_payment_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $post = get_post( $item );
+        $data[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/type-payment/".$post->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
+        ];
+    }
+    return $data;
 }
 /* Post cards end */
 

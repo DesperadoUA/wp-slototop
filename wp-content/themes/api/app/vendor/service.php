@@ -10,6 +10,7 @@ class Service extends BaseService {
     }
     function meta() {
         return [
+            'slug'         => $this->postType,
             'post_type'    => $this->postType,
             'year'         => carbon_get_post_meta($this->currentPost->ID, 'year'),
             'rating'       => (int)carbon_get_post_meta($this->currentPost->ID, 'rating'),
