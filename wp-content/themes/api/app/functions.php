@@ -23,6 +23,24 @@ class Relative {
         }
         return $postsIds;
     }
+    static function getAllBonusesCasino($casinoId) {
+        $postsIds = [];
+        $query = new WP_Query( array(
+            'posts_per_page' => -1,
+            'post_type'    => 'bonus',
+            'post_status'  => 'publish',
+            'meta_query' => array(
+                'relative' => array(
+                    'key'   => '_relative_casino',
+                    'value' => $casinoId,
+                )
+            )
+        ));
+        if(!empty($query->posts)) {
+            foreach ($query->posts as $item) $postsIds[] = $item->ID;
+        }
+        return $postsIds;
+    }
 }
 class BaseService  {
     public $currentPost;
@@ -339,6 +357,45 @@ function get_type_payment_card_data($arr_id) {
     }
     return $data;
 }
+function get_type_bonus_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $post = get_post( $item );
+        $data[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/type-bonus/".$post->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
+        ];
+    }
+    return $data;
+}
+function get_bonus_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $thumbnail = '';
+        $casino = [];
+        $casinoIds = carbon_get_post_meta($item, 'relative_casino');
+        if(!empty($casinoIds)) {
+            $post = get_post( $casinoIds[0] );
+            $thumbnail = get_the_post_thumbnail_url($casinoIds[0], 'full');
+            $casino['thumbnail'] = $thumbnail;
+            $casino['title'] = $post->post_title;
+        } 
+        $type_bonus = get_type_bonus_card_data(carbon_get_post_meta($item, 'relative_type_bonus'));
+        $post = get_post( $item );
+        $data[] = [
+            'title'      => get_the_title($item),
+            'permalink'  => "/bonus/".$post->post_name,
+            'ref'        => postRefAdapter(carbon_get_post_meta($item, 'ref')),
+            'thumbnail'  => $thumbnail,
+            'close'      => (int)carbon_get_post_meta($item, 'close'),
+            'type_bonus' => $type_bonus,
+            'value'      => carbon_get_post_meta($item, 'value_bonus'),
+            'casino'     => $casino
+        ];
+    }
+    return $data;
+}
 /* Post cards end */
 
 /* Single posts */
@@ -439,7 +496,6 @@ function get_page_data($id) {
 /* Single posts end */
 
 /* Support functions */
-/*
 function url_to_post_id($url, $post_type) {
     $query = new WP_Query( array(
         'post_type'         => $post_type,
@@ -449,8 +505,6 @@ function url_to_post_id($url, $post_type) {
     if(!isset($query->post)) return 0;
     else return $query->post->ID;
 }
-*/
-
 /*
 function get_public_post_id($post_type) {
     $arr_id = [];
