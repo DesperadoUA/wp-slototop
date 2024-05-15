@@ -41,6 +41,24 @@ class Relative {
         }
         return $postsIds;
     }
+    static function getRelative($postId, $relativePostType, $relativeKey) {
+        $postsIds = [];
+        $query = new WP_Query( array(
+            'posts_per_page' => -1,
+            'post_type'    => $relativePostType,
+            'post_status'  => 'publish',
+            'meta_query' => array(
+                'relative' => array(
+                    'key'   => '_'.$relativeKey,
+                    'value' => $postId,
+                ),
+            )
+        ));
+        if(!empty($query->posts)) {
+            foreach ($query->posts as $item) $postsIds[] = $item->ID;
+        }
+        return $postsIds;
+    }
 }
 class BaseService  {
     public $currentPost;
@@ -392,6 +410,18 @@ function get_bonus_card_data($arr_id) {
             'type_bonus' => $type_bonus,
             'value'      => carbon_get_post_meta($item, 'value_bonus'),
             'casino'     => $casino
+        ];
+    }
+    return $data;
+}
+function get_payment_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $post = get_post( $item );
+        $data[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/payment/".$post->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
         ];
     }
     return $data;
