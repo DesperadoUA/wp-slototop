@@ -76,7 +76,7 @@ class BaseService  {
             'h1'           => carbon_get_post_meta($this->currentPost->ID, 'h1'),
             'content'      => $this->currentPost->post_content,
             'amp_content'  => parseAmpContent($this->currentPost->post_content),
-            'thumbnail'    => get_the_post_thumbnail_url($this->currentPost->ID, 'full'),
+            'thumbnail'    => (string)get_the_post_thumbnail_url($this->currentPost->ID, 'full'),
             'created_at'   => $this->currentPost->post_date,
             'updated_at'   => $this->currentPost->post_modified,
             'index_seo'    => (int)carbon_get_post_meta($this->currentPost->ID, 'index_seo'),
