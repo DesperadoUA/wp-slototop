@@ -170,7 +170,7 @@ function parseAmpContent($content) {
     foreach ($contentLinksData[0] as $key => $linkData){
         if ( strpos($contentLinksData[1][$key] ,'#')  !== 0 && !strpos($contentLinksData[1][$key] ,'amp')){
             if(strpos($contentLinksData[1][$key] ,'http')  !== 0 && $contentLinksData[1][$key] !== '/go/') {
-                $content = str_replace('href="' . $contentLinksData[1][$key] . '"', 'href="/amp' . rtrim($contentLinksData[1][$key], '/') . '/"', $content);
+                $content = str_replace('href="' . $contentLinksData[1][$key] . '"', 'href="/amp' . rtrim($contentLinksData[1][$key], '/') . '"', $content);
             }
         }
     }
@@ -243,55 +243,6 @@ function getOptions() {
     ];
 }
 /* Post cards */
-/*
-function get_main_bonus_card_data($arr_id) {
-    $data_posts = [];
-    foreach ($arr_id as $item) {
-        $refData = carbon_get_post_meta($item, 'ref');
-        $ref = refAdapter($refData);
-        $bg = carbon_get_post_meta($item, 'color');
-        $label = carbon_get_post_meta($item, 'marker');
-        $thumbnail = get_the_post_thumbnail_url($item, 'full');
-        $rating = carbon_get_post_meta($item, 'rating');
-        $bonusesData = carbon_get_post_meta($item, 'bonuses');
-        foreach ($bonusesData as $itemBonus) {
-             $data_posts[] = [
-                 'bg' => $bg,
-                 'label' => $label,
-                 'src' => $thumbnail,
-                 'title' => $itemBonus['bonuses_title'],
-                 'value' => $itemBonus['bonuses_value'],
-                 'desc' => $itemBonus['bonuses_sub_title'],
-                 'ref' => $ref,
-                 'rating' => $rating
-             ];
-        }
-    }
-    return $data_posts;
-}
-function get_aside_bonus_card_data($arr_id) {
-    $data_posts = [];
-    foreach ($arr_id as $item) {
-        $refData = carbon_get_post_meta($item, 'ref');
-        $ref = refAdapter($refData);
-        $bg = carbon_get_post_meta($item, 'color');
-        $label = carbon_get_post_meta($item, 'marker');
-        $thumbnail = carbon_get_post_meta($item, 'icon');
-        $bonusesData = carbon_get_post_meta($item, 'bonuses');
-        foreach ($bonusesData as $itemBonus) {
-             $data_posts[] = [
-                 'bg' => $bg,
-                 'label' => $label,
-                 'src' => $thumbnail,
-                 'title' => $itemBonus['bonuses_title'],
-                 'value' => $itemBonus['bonuses_value'],
-                 'ref' => $ref
-             ];
-        }
-    }
-    return $data_posts;
-}
-*/
 function get_casino_card_data($arr_id) {
     $data = [];
     foreach ($arr_id as $item) {
@@ -306,7 +257,7 @@ function get_casino_card_data($arr_id) {
             ]; 
         }
         $data[] = [
-            'title'     => get_the_title($item),
+            'title'     => $casinoPost->post_title,
             'ref'       => postRefAdapter($refData),
             'rating'    => (int)carbon_get_post_meta($item, 'rating'),
             'permalink' => "/casino/".$casinoPost->post_name,
@@ -426,124 +377,73 @@ function get_payment_card_data($arr_id) {
     }
     return $data;
 }
+function get_technology_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $paymentPost = get_post( $item );
+        $data[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/technology/".$paymentPost->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
+        ];
+    }
+    return $data;
+}
+function get_license_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $paymentPost = get_post( $item );
+        $data[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/license/".$paymentPost->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
+        ];
+    }
+    return $data;
+}
+function get_language_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $paymentPost = get_post( $item );
+        $data[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/language/".$paymentPost->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
+        ];
+    }
+    return $data;
+}
+function get_poker_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $pokerPost = get_post( $item );
+        $refData = carbon_get_post_meta($item, 'ref');
+        $data[] = [
+            'title'     => $pokerPost->post_title,
+            'ref'       => postRefAdapter($refData),
+            'rating'    => (int)carbon_get_post_meta($item, 'rating'),
+            'permalink' => "/poker/".$pokerPost->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
+        ];
+    }
+    return $data;
+}
 /* Post cards end */
 
 /* Single posts */
-/*
-function get_single_casino_data($id){
-    $data_post = [];
-    $current_data = get_post($id);
-    if(!empty($current_data)) {
-        $amp_text = carbon_get_post_meta($current_data->ID, 'amp_content');
-        $amp_text = empty($amp_text) ? parseAmpContent($current_data->post_content) : parseAmpContent($amp_text);
-        $paymentsData = carbon_get_post_meta($current_data->ID, 'relative_pay_out');
-        $vendorsData = carbon_get_post_meta($current_data->ID, 'relative_vendor');
-        $currencyData = carbon_get_post_meta($current_data->ID, 'relative_currency');
-        $languagesData = carbon_get_post_meta($current_data->ID, 'relative_languages');
-        $refData = carbon_get_post_meta($current_data->ID, 'ref');
 
-        $data_posts = [
-            'id'                => $current_data->ID,
-            'title'             => $current_data->post_title,
-            'meta_title'        => carbon_get_post_meta($current_data->ID, 'meta_title'),
-            'meta_description'  => carbon_get_post_meta($current_data->ID, 'meta_description'),
-            'meta_keywords'     => carbon_get_post_meta($current_data->ID, 'meta_keywords'),
-            'h1'                => carbon_get_post_meta($current_data->ID, 'h1'),
-            'content'           => $current_data->post_content,
-            'amp_content'       => $amp_text,
-            'ref'               => refAdapter($refData),
-            'bonuses'           => get_aside_bonus_card_data([$current_data->ID]),
-            'rating'            => carbon_get_post_meta($current_data->ID, 'rating'),
-            'thumbnail'         => get_the_post_thumbnail_url($current_data->ID, 'full'),
-            'min_deposit'       => carbon_get_post_meta($current_data->ID, 'min_deposit'),
-            'min_payout'        => carbon_get_post_meta($current_data->ID, 'min_payout'),
-            'currencies'        => currenciesAdapter($currencyData),
-            'languages'         => langsAdapter($languagesData),
-            'color'             => carbon_get_post_meta($current_data->ID, 'color'),
-            'payments'          => paymentAdapter($paymentsData),
-            'label'             => carbon_get_post_meta($current_data->ID, 'marker'),
-            'vendors'           => vendorAdapter($vendorsData),
-            'date'              => $current_data->post_date,
-            'date_modified'     => $current_data->post_modified,
-            'hreflang'          => get_headers_lang($current_data->ID),
-            'games'             => [],
-        ];
-        return $data_posts;
-    }
-    return $data_post;
-}
-function get_single_game_data($id){
-    $data_post = [];
-    $current_data = get_post($id);
-    if(!empty($current_data)) {
-        $amp_text = carbon_get_post_meta($current_data->ID, 'amp_content');
-        $amp_text = empty($amp_text) ? parseAmpContent($current_data->post_content) : parseAmpContent($amp_text);
-
-        $data_posts = [
-            'id'                      => $current_data->ID,
-            'title'                   => $current_data->post_title,
-            'meta_title'              => carbon_get_post_meta($current_data->ID, 'meta_title'),
-            'meta_description'        => carbon_get_post_meta($current_data->ID, 'meta_description'),
-            'meta_keywords'           => carbon_get_post_meta($current_data->ID, 'meta_keywords'),
-            'h1'                      => carbon_get_post_meta($current_data->ID, 'h1'),
-            'content'                 => $current_data->post_content,
-            'amp_content'             => $amp_text,
-            'thumbnail'               => get_the_post_thumbnail_url($current_data->ID, 'full'),
-            'date'                    => $current_data->post_date,
-            'date_modified'           => $current_data->post_modified,
-            'hreflang'                => get_headers_lang($current_data->ID)
-        ];
-        return $data_posts;
-    }
-    return $data_post;
-}
-function get_page_data($id) {
-    $data_post = [];
-    $current_data = get_post($id);
-    if(!empty($current_data)) {
-        $amp_text = carbon_get_post_meta($current_data->ID, 'amp_content');
-        $amp_text = empty($amp_text) ? parseAmpContent($current_data->post_content) : parseAmpContent($amp_text);
-        $data_posts = [
-            'id'               => $current_data->ID,
-            'title'            => $current_data->post_title,
-            'meta_title'       => carbon_get_post_meta($current_data->ID, 'meta_title'),
-            'meta_description' => carbon_get_post_meta($current_data->ID, 'meta_description'),
-            'meta_keywords'    => carbon_get_post_meta($current_data->ID, 'meta_keywords'),
-            'h1'               => carbon_get_post_meta($current_data->ID, 'h1'),
-            'content'          => $current_data->post_content,
-            'amp_content'      => $amp_text,
-            'description_site' => get_bloginfo(),
-            'thumbnail'        => get_the_post_thumbnail_url($current_data->ID, 'full'),
-            'date'             => $current_data->post_date,
-            'date_modified'    => $current_data->post_modified,
-            'hreflang'         => get_headers_lang($current_data->ID)
-        ];
-        return $data_posts;
-    }
-    return $data_post;
-}
-*/
 /* Single posts end */
 
 /* Support functions */
-function url_to_post_id($url, $post_type) {
-    $query = new WP_Query( array(
-        'post_type'         => $post_type,
-        'name'              => $url,
-        'post_status'       => 'publish'
-    ));
-    if(!isset($query->post)) return 0;
-    else return $query->post->ID;
-}
-/*
-function get_public_post_id($post_type) {
+function get_public_post_id($post_type, $limit = -1, $executeIds = []) {
     $arr_id = [];
     $query = new WP_Query( array(
-        'posts_per_page' => -1,
-        'post_type'    => $post_type,
-        'post_status'  => 'publish',
-        'orderby'      => 'meta_value_num',
-        'order'        => 'DESC',
+        'posts_per_page' => $limit,
+        'post_type'      => $post_type,
+        'post_status'    => 'publish',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'DESC',
+        'post__not_in'    => $executeIds,
         'meta_query' => array(
             array(
                 'key' => '_rating',
@@ -553,6 +453,16 @@ function get_public_post_id($post_type) {
     if(empty($query->posts)) return $arr_id;
     foreach ($query->posts as $item ) $arr_id[] = $item->ID;
     return $arr_id;
+}
+/*
+function url_to_post_id($url, $post_type) {
+    $query = new WP_Query( array(
+        'post_type'         => $post_type,
+        'name'              => $url,
+        'post_status'       => 'publish'
+    ));
+    if(!isset($query->post)) return 0;
+    else return $query->post->ID;
 }
 function get_permalink_and_title_by_arr_id($arr_id) {
     if(empty($arr_id)) return [];

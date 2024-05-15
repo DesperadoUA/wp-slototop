@@ -1,9 +1,9 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/wp-config.php';
 include 'functions.php';
-include APP_DIR.'/type_payment/service.php';
-use type_payment\service\Service;
+include APP_DIR.'/poker/service.php';
+use poker\service\Service;
 $response['confirm'] = SUCCESS_STATUS;
-$post = new Service(2481);
+$post = new Service(2419);
 $response['body'] = $post->show();
 echo json_encode($response);
