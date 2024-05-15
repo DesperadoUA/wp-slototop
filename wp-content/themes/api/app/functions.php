@@ -295,21 +295,21 @@ function get_aside_bonus_card_data($arr_id) {
 function get_casino_card_data($arr_id) {
     $data = [];
     foreach ($arr_id as $item) {
-        $post = get_post( $item );
+        $casinoPost = get_post( $item );
         $refData = carbon_get_post_meta($item, 'ref');
         $licenseIds = carbon_get_post_meta($item, 'relative_license');
         $licenses = [];
         if(!empty($licenseIds)) {
-            $post = get_post( $licenseIds[0] );
+            $licensePost = get_post( $licenseIds[0] );
             $licenses = [
-                'title' => $post->post_title
+                'title' => $licensePost->post_title
             ]; 
         }
         $data[] = [
             'title'     => get_the_title($item),
             'ref'       => postRefAdapter($refData),
             'rating'    => (int)carbon_get_post_meta($item, 'rating'),
-            'permalink' => "/casino/".$post->post_name,
+            'permalink' => "/casino/".$casinoPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
             'close'     => (int)carbon_get_post_meta($item, 'close'),
             'licenses'  => $licenses
@@ -320,18 +320,18 @@ function get_casino_card_data($arr_id) {
 function get_slot_card_data($arr_id) {
     $data = [];
     foreach ($arr_id as $item) {
-        $post = get_post( $item );
+        $slotPost = get_post( $item );
         $vendorsIds = carbon_get_post_meta($item, 'relative_vendor');
         $vendor = [];
         if(!empty($vendorsIds)) {
-            $post = get_post( $vendorsIds[0] );
+            $vendorPost = get_post( $vendorsIds[0] );
             $vendor = [
-                'title' => $post->post_title
+                'title' => $vendorPost->post_title
             ]; 
         }
         $data[] = [
             'title'     => get_the_title($item),
-            'permalink' => "/game/".$post->post_name,
+            'permalink' => "/game/".$slotPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
             'vendor'    => $vendor
         ];
@@ -341,10 +341,10 @@ function get_slot_card_data($arr_id) {
 function get_currency_card_data($arr_id) {
     $data = [];
     foreach ($arr_id as $item) {
-        $post = get_post( $item );
+        $currencyPost = get_post( $item );
         $data[] = [
             'title'     => get_the_title($item),
-            'permalink' => "/currency/".$post->post_name,
+            'permalink' => "/currency/".$currencyPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
             'sub_title' => carbon_get_post_meta($item, 'sub_title')
         ];
@@ -354,10 +354,10 @@ function get_currency_card_data($arr_id) {
 function get_country_card_data($arr_id) {
     $data = [];
     foreach ($arr_id as $item) {
-        $post = get_post( $item );
+        $countryPost = get_post( $item );
         $data[] = [
             'title'     => get_the_title($item),
-            'permalink' => "/country/".$post->post_name,
+            'permalink' => "/country/".$countryPost->post_name,
             'thumbnail' => get_the_post_thumbnail_url($item, 'full'),
         ];
     }
@@ -366,10 +366,10 @@ function get_country_card_data($arr_id) {
 function get_type_payment_card_data($arr_id) {
     $data = [];
     foreach ($arr_id as $item) {
-        $post = get_post( $item );
+        $typePaymentPost = get_post( $item );
         $data[] = [
             'title'     => get_the_title($item),
-            'permalink' => "/type-payment/".$post->post_name,
+            'permalink' => "/type-payment/".$typePaymentPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
         ];
     }
@@ -378,10 +378,10 @@ function get_type_payment_card_data($arr_id) {
 function get_type_bonus_card_data($arr_id) {
     $data = [];
     foreach ($arr_id as $item) {
-        $post = get_post( $item );
+        $typeBonusPost = get_post( $item );
         $data[] = [
             'title'     => get_the_title($item),
-            'permalink' => "/type-bonus/".$post->post_name,
+            'permalink' => "/type-bonus/".$typeBonusPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
         ];
     }
@@ -394,16 +394,16 @@ function get_bonus_card_data($arr_id) {
         $casino = [];
         $casinoIds = carbon_get_post_meta($item, 'relative_casino');
         if(!empty($casinoIds)) {
-            $post = get_post( $casinoIds[0] );
+            $casinoPost = get_post( $casinoIds[0] );
             $thumbnail = get_the_post_thumbnail_url($casinoIds[0], 'full');
             $casino['thumbnail'] = $thumbnail;
-            $casino['title'] = $post->post_title;
+            $casino['title'] = $casinoPost->post_title;
         } 
         $type_bonus = get_type_bonus_card_data(carbon_get_post_meta($item, 'relative_type_bonus'));
-        $post = get_post( $item );
+        $bonusPost = get_post( $item );
         $data[] = [
             'title'      => get_the_title($item),
-            'permalink'  => "/bonus/".$post->post_name,
+            'permalink'  => "/bonus/".$bonusPost->post_name,
             'ref'        => postRefAdapter(carbon_get_post_meta($item, 'ref')),
             'thumbnail'  => $thumbnail,
             'close'      => (int)carbon_get_post_meta($item, 'close'),
@@ -417,10 +417,10 @@ function get_bonus_card_data($arr_id) {
 function get_payment_card_data($arr_id) {
     $data = [];
     foreach ($arr_id as $item) {
-        $post = get_post( $item );
+        $paymentPost = get_post( $item );
         $data[] = [
             'title'     => get_the_title($item),
-            'permalink' => "/payment/".$post->post_name,
+            'permalink' => "/payment/".$paymentPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
         ];
     }
