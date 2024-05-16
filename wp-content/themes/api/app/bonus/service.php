@@ -5,9 +5,6 @@ use Relative;
 
 class Service extends BaseService {
     public $postType = 'bonus';
-    function show() {
-        return array_merge($this->commonData(), $this->meta(), $this->relative());
-    }
     function meta() {
         $casinoIds = carbon_get_post_meta($this->currentPost->ID, 'relative_casino');
         $thumbnail = !empty($casinoIds) ? get_the_post_thumbnail_url($casinoIds[0], 'full') : '';

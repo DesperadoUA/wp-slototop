@@ -1,11 +1,11 @@
 <?php
-$current_post = [];
+include APP_DIR.'/casino/service.php';
+use casino\service\Service;
 $post_id = url_to_post_id($_POST['url'], $_POST['type']);
-if($post_id === 0) $response['status'] = '404';
+if($post_id === 0) $response['status'] = ERROR_STATUS;
 else{
-    $response['status'] = '200';
-    $current_post = get_single_casino_data($post_id);
-    $response['body'] = $current_post;
-    $response['body']['meta'] = DEFAULT_META_SETTINGS;
+    $post = new Service($post_id);
+    $response['status'] = SUCCESS_STATUS;
+    $response['body'] = $post->show();
 }
 echo json_encode($response);

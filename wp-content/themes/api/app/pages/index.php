@@ -11,7 +11,7 @@ elseif ($_POST['url'] === 'bonuses') {
     if(empty($response['body'])) $response['status'] = '404';
     else {
         $response['status'] = '200';
-        $arr_casino_id = get_public_post_id('casino');
+        $arr_casino_id = get_public_post_id_by_rating('casino');
         $bonuses = get_main_bonus_card_data($arr_casino_id);
         shuffle($bonuses);
         $response['body']['bonuses'] = $bonuses;

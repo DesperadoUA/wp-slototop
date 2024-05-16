@@ -1,13 +1,9 @@
 <?php
 namespace game\service;
 use BaseService;
-use Relative;
 
 class Service extends BaseService {
     public $postType = 'game';
-    function show() {
-        return array_merge($this->commonData(), $this->meta(), $this->relative());
-    }
     function meta() {
         return [
             'slug'       => $this->postType,
@@ -26,8 +22,8 @@ class Service extends BaseService {
         ];
     }
     function relative() {
-        $casinoIds = get_public_post_id('casino', 5);
-        $gameIds = get_public_post_id('slot', 5, [$this->currentPost->ID]);
+        $casinoIds = get_public_post_id_by_rating('casino', 5);
+        $gameIds = get_public_post_id_by_rating('slot', 5, [$this->currentPost->ID]);
         return [
             'vendor' => get_vendor_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_vendor')),
             'casino' => get_casino_card_data($casinoIds),

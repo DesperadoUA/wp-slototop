@@ -87,8 +87,16 @@ class BaseService  {
             'author_name'  => carbon_get_post_meta(AUTHOR_PAGE_ID, 'h1'),
         ];
     }
+    function show() {
+        return array_merge($this->commonData(), $this->meta(), $this->relative());
+    }
+    function meta() {
+        return [];
+    }
+    function relative() {
+        return [];
+    }
 }
-
 /* adapters */
 function optionsRefAdapter($arr) {
     $data = [];
@@ -100,48 +108,6 @@ function postRefAdapter($arr) {
     foreach ($arr as $item) $data[] = $item['ref_link'];
     return $data;
 }
-/*
-function advantagesAdapter($arr) {
-    $data = [];
-    foreach ($arr as $item) $data[] = $item['advantages'];
-    return $data;
-}
-function currenciesAdapter($arr) {
-    $CURRENCY = include(ROOT_DIR.'/configs/currency.php');
-    $data = [];
-    foreach ($arr as $item) $data[] = ['title' => $CURRENCY[$item]['title']];
-    return $data;
-}
-function langsAdapter($arr) {
-    $LANG = include(ROOT_DIR.'/configs/languages.php');
-    $data = [];
-    foreach ($arr as $item) $data[] = ['title' => $LANG[$item]['title']];
-    return $data;
-}
-*/
-/*
-function refAdapter($arr) {
-    $data = [];
-    foreach ($arr as $item) $data[] = $item['casino_ref'];
-    return $data;
-}
-*/
-/*
-function paymentAdapter($arr) {
-    $siteUrl = get_site_url();
-    $PAYMENTS = include(ROOT_DIR.'/configs/payment.php');
-    $data = [];
-    foreach ($arr as $item) $data[] = ['thumbnail' => $siteUrl.$PAYMENTS[$item]['src'], 'title' => $PAYMENTS[$item]['title']];
-    return $data;
-}
-function vendorAdapter($arr) {
-    $siteUrl = get_site_url();
-    $VENDORS = include(ROOT_DIR.'/configs/vendors.php');
-    $data = [];
-    foreach ($arr as $item) $data[] = ['thumbnail' => $siteUrl.$VENDORS[$item]['src'], 'title' => $VENDORS[$item]['title']];
-    return $data;
-}
-*/
 /* adapters */
 function parseAmpContent($content) {
     $content = str_replace('<picture></picture>', '', $content);
@@ -264,6 +230,22 @@ function get_casino_card_data($arr_id) {
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
             'close'     => (int)carbon_get_post_meta($item, 'close'),
             'licenses'  => $licenses
+        ];
+    }
+    return $data;
+}
+function get_casino_sidebar_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $casinoPost = get_post( $item );
+        $refData = carbon_get_post_meta($item, 'ref');
+        $data[] = [
+            'title'      => $casinoPost->post_title,
+            'ref'        => postRefAdapter($refData),
+            'rating'     => (int)carbon_get_post_meta($item, 'rating'),
+            'short_desc' => (string)carbon_get_post_meta($item, 'short_desc'),
+            'permalink'  => "/casino/".$casinoPost->post_name,
+            'thumbnail'  => (string)get_the_post_thumbnail_url($item, 'full'),
         ];
     }
     return $data;
@@ -441,13 +423,8 @@ function get_vendor_card_data($arr_id) {
     return $data;
 }
 /* Post cards end */
-
-/* Single posts */
-
-/* Single posts end */
-
 /* Support functions */
-function get_public_post_id($post_type, $limit = -1, $executeIds = []) {
+function get_public_post_id_by_rating($post_type, $limit = -1, $executeIds = []) {
     $arr_id = [];
     $query = new WP_Query( array(
         'posts_per_page' => $limit,
@@ -466,7 +443,20 @@ function get_public_post_id($post_type, $limit = -1, $executeIds = []) {
     foreach ($query->posts as $item ) $arr_id[] = $item->ID;
     return $arr_id;
 }
-/*
+function get_public_post_id($post_type, $limit = -1, $executeIds = []) {
+    $arr_id = [];
+    $query = new WP_Query( array(
+        'posts_per_page' => $limit,
+        'post_type'      => $post_type,
+        'post_status'    => 'publish',
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+        'post__not_in'    => $executeIds,
+    ));
+    if(empty($query->posts)) return $arr_id;
+    foreach ($query->posts as $item ) $arr_id[] = $item->ID;
+    return $arr_id;
+}
 function url_to_post_id($url, $post_type) {
     $query = new WP_Query( array(
         'post_type'         => $post_type,
@@ -476,55 +466,4 @@ function url_to_post_id($url, $post_type) {
     if(!isset($query->post)) return 0;
     else return $query->post->ID;
 }
-function get_permalink_and_title_by_arr_id($arr_id) {
-    if(empty($arr_id)) return [];
-    $data = [];
-    foreach ($arr_id as $id) {
-        $data[] = [
-            'title' => get_the_title($id),
-            'permalink' => get_short_link($id)
-        ];
-    }
-    return $data;
-}
-function get_menu($id){
-    $data = [];
-    $menu = wp_get_nav_menu_items($id);
-    if(!empty($menu)) {
-        foreach ($menu as $item) {
-            $data[] = [
-                'title'     => $item->title,
-                'permalink' => str_replace(HOST_URL, '', $item->url)
-            ];
-        }
-    }
-    return $data;
-}
-function get_sitemap_by_arr_posts($posts, $priority) {
-    if(empty($posts)) return [];
-    $data = [];
-    foreach ($posts as $item) {
-        $data[] = [
-            'url'  => get_short_link($item->ID),
-            'lastmod'    => substr($item->post_modified, 0, 10),
-            'changefreq' => 'daily',
-            'priority'   => get_short_link($item->ID) === '/' ? 1 : $priority
-        ];
-    }
-    return $data;
-}
-function get_headers_lang($id){
-    $headers = [];
-    $headers_lang = carbon_get_post_meta($id, 'headers_meta_lang');
-    if(!empty($headers_lang)) {
-        foreach ($headers_lang as $item) {
-            $headers[] = [
-                'lang' => $item['headers_lang'],
-                'link' => $item['headers_link']
-            ];
-        }
-    }
-    return $headers;
-}
-*/
 /* Support functions end */

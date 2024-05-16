@@ -4,9 +4,6 @@ use BaseService;
 
 class Service extends BaseService {
     public $postType = 'poker';
-    function show() {
-        return array_merge($this->commonData(), $this->meta(), $this->relative());
-    }
     function meta() {
         return [
             'slug'         => $this->postType,
@@ -34,7 +31,7 @@ class Service extends BaseService {
             'language'     => get_language_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_language')),
             'currency'     => get_currency_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_currency')),
             'country'      => get_country_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_country')),
-            'pokers'       => get_poker_card_data(get_public_post_id('poker', 5, [$this->currentPost->ID]))
+            'pokers'       => get_poker_card_data(get_public_post_id_by_rating('poker', 5, [$this->currentPost->ID]))
         ];
     }
 }

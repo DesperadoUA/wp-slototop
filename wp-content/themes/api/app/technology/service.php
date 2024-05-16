@@ -5,9 +5,6 @@ use Relative;
 
 class Service extends BaseService {
     public $postType = 'technology';
-    function show() {
-        return array_merge($this->commonData(), $this->meta(), $this->relative());
-    }
     function meta() {
         return [
             'slug'      => $this->postType,
