@@ -1,7 +1,6 @@
 <?php
 namespace poker\service;
 use BaseService;
-use Relative;
 
 class Service extends BaseService {
     public $postType = 'poker';

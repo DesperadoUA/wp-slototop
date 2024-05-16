@@ -428,6 +428,18 @@ function get_poker_card_data($arr_id) {
     }
     return $data;
 }
+function get_vendor_card_data($arr_id) {
+    $data = [];
+    foreach ($arr_id as $item) {
+        $paymentPost = get_post( $item );
+        $data[] = [
+            'title'     => get_the_title($item),
+            'permalink' => "/vendor/".$paymentPost->post_name,
+            'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
+        ];
+    }
+    return $data;
+}
 /* Post cards end */
 
 /* Single posts */

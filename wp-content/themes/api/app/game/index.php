@@ -1,7 +1,11 @@
 <?php
-if($post_id === 0) $response['confirm'] = 'error';
+include APP_DIR.'/game/service.php';
+use game\service\Service;
+$post_id = url_to_post_id($_POST['url'], $_POST['type']);
+if($post_id === 0) $response['status'] = ERROR_STATUS;
 else{
-    $response['confirm'] = 'ok';
-    $response['body'] = get_single_game_data($post_id);
+    $post = new Service($post_id);
+    $response['status'] = SUCCESS_STATUS;
+    $response['body'] = $post->show();
 }
 echo json_encode($response);
