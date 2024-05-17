@@ -16,7 +16,7 @@ class Service extends BaseService {
             'wager'       => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['WAGER']),
             'number_use'  => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['NUMBER_USE']),
             'value_bonus' => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['VALUE_BONUS']),
-            'thumbnail'   => $thumbnail
+            'thumbnail'   => $thumbnail,
         ];
     }
     function relative() {

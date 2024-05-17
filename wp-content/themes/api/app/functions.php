@@ -83,7 +83,7 @@ class BaseService  {
             'follow'       => (int)carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['FOLLOW']),
             'short_desc'   => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['SHORT_DESC']),
             'permalink'    => $this->currentPost->post_name,
-            'hreflang'     => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['HEADERS_META_LANG']),
+            'hreflang'     => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['HEADER_META_LANG']),
             'author_name'  => carbon_get_post_meta(AUTHOR_PAGE_ID, FIELDS_KEY['H1']),
         ];
     }
@@ -423,47 +423,3 @@ function get_vendor_card_data($arr_id) {
     return $data;
 }
 /* Post cards end */
-/* Support functions */
-function get_public_post_id_by_rating($post_type, $limit = -1, $executeIds = []) {
-    $arr_id = [];
-    $query = new WP_Query( array(
-        'posts_per_page' => $limit,
-        'post_type'      => $post_type,
-        'post_status'    => 'publish',
-        'orderby'        => 'meta_value_num',
-        'order'          => 'DESC',
-        'post__not_in'    => $executeIds,
-        'meta_query' => array(
-            array(
-                'key' => '_rating',
-            )
-        ),
-    ));
-    if(empty($query->posts)) return $arr_id;
-    foreach ($query->posts as $item ) $arr_id[] = $item->ID;
-    return $arr_id;
-}
-function get_public_post_id($post_type, $limit = -1, $executeIds = []) {
-    $arr_id = [];
-    $query = new WP_Query( array(
-        'posts_per_page' => $limit,
-        'post_type'      => $post_type,
-        'post_status'    => 'publish',
-        'orderby'        => 'date',
-        'order'          => 'DESC',
-        'post__not_in'   => $executeIds,
-    ));
-    if(empty($query->posts)) return $arr_id;
-    foreach ($query->posts as $item ) $arr_id[] = $item->ID;
-    return $arr_id;
-}
-function url_to_post_id($url, $post_type) {
-    $query = new WP_Query( array(
-        'post_type'         => $post_type,
-        'name'              => $url,
-        'post_status'       => 'publish'
-    ));
-    if(!isset($query->post)) return 0;
-    else return $query->post->ID;
-}
-/* Support functions end */
