@@ -9,17 +9,17 @@ class Service extends BaseService {
         return [
             'slug'              => $this->postType,
             'post_type'         => $this->postType,
-            'site'              => carbon_get_post_meta($this->currentPost->ID, 'site'),
-            'commission'        => carbon_get_post_meta($this->currentPost->ID, 'commission'),
-            'withdrawal'        => carbon_get_post_meta($this->currentPost->ID, 'withdrawal'),
-            'withdrawal_period' => carbon_get_post_meta($this->currentPost->ID, 'withdrawal_period'),
+            'site'              => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['SITE']),
+            'commission'        => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['COMMISSION']),
+            'withdrawal'        => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['WITHDRAWAL']),
+            'withdrawal_period' => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['WITHDRAWAL_PERIOD']),
         ];
     }
     function relative() {
         return [
-            'casino'       => get_casino_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'casino', 'relative_payment')),
-            'currency'     => get_currency_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_currency')),
-            'type_payment' => get_type_payment_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_type_payment')),
+            'casino'       => get_casino_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'casino', FIELDS_KEY['RELATIVE_PAYMENT'])),
+            'currency'     => get_currency_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CURRENCY'])),
+            'type_payment' => get_type_payment_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_TYPE_PAYMENT'])),
         ];
     }
 }
