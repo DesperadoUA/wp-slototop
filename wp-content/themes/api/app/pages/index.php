@@ -1,50 +1,41 @@
 <?php
-if($_POST['url'] === '/') {
-    $id = get_option( 'page_on_front' );
-    $response['body'] = get_page_data($id);
-    if(empty($response['body'])) $response['status'] = '404';
-    echo json_encode($response);
-}
-elseif ($_POST['url'] === 'bonuses') {
-    $id = url_to_post_id($_POST['url'], $_POST['type']);
-    $response['body'] = get_page_data($id);
-    if(empty($response['body'])) $response['status'] = '404';
-    else {
-        $response['status'] = '200';
-        $arr_casino_id = get_public_post_id_by_rating('casino');
-        $bonuses = get_main_bonus_card_data($arr_casino_id);
-        shuffle($bonuses);
-        $response['body']['bonuses'] = $bonuses;
+include APP_DIR.'/pages/service.php';
+use pages\service\Service;
+$post_id = $_POST['url'] === 'main' 
+    ? MAIN_PAGE_ID 
+    : url_to_post_id($_POST['url'], $_POST['type']);
+if($post_id === 0) $response['status'] = ERROR_STATUS;
+else{
+    $page = new Service($post_id);
+    $response['status'] = SUCCESS_STATUS;
+    switch ($post_id) {
+        case AUTHOR_PAGE_ID: {
+            $response['body'] = $page->author();
+            break;
+        }
+        case CASINO_PAGE_ID: {
+            $response['body'] = $page->casino();
+            break;
+        }
+        case BONUSES_PAGE_ID: {
+            $response['body'] = $page->bonuses();
+            break;
+        }
+        case VENDORS_PAGE_ID: {
+            $response['body'] = $page->vendors();
+            break;
+        }
+        case PAYMENTS_PAGE_ID: {
+            $response['body'] = $page->payments();
+            break;
+        }
+        case MAIN_PAGE_ID: {
+            $response['body'] = $page->main();
+            break;
+        }
+        default: {
+            $response['body'] = $page->show();
+        }
     }
-    echo json_encode($response);
 }
-elseif ($_POST['url'] === 'games') {
-    $id = url_to_post_id($_POST['url'], $_POST['type']);
-    $response['body'] = get_page_data($id);
-    if(empty($response['body'])) $response['status'] = '404';
-    else {
-        $response['status'] = '200';
-    }
-    echo json_encode($response);
-}
-elseif ($_POST['url'] === 'search') {
-	$response['status'] = '200';
-	$search_world=$_POST['search_world'];
-	$post_args = array(
-		'numberposts'=>'-1',
-		'post_type'=>array('casino'),
-		's'=>$search_world
-	);
-	$data = [];
-	$posts = get_posts($post_args);
-	foreach ($posts as $item) {
-		$data[] = [
-			'permalink' => get_short_link($item->ID),
-			'title' => $item->post_title,
-            'host' => HOST_URL
-		];
-
-	}
-	$response['body']['posts'] = $data;
-	echo json_encode($response);
-}
+echo json_encode($response);
