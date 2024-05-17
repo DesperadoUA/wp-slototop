@@ -11,11 +11,11 @@ class Service extends BaseService {
         return [
             'slug'        => $this->postType,
             'post_type'   => $this->postType,
-            'ref'         => postRefAdapter(carbon_get_post_meta($this->currentPost->ID, 'ref')),
-            'close'       => (int)carbon_get_post_meta($this->currentPost->ID, 'close'),
-            'wager'       => carbon_get_post_meta($this->currentPost->ID, 'wager'),
-            'number_use'  => carbon_get_post_meta($this->currentPost->ID, 'number_use'),
-            'value_bonus' => carbon_get_post_meta($this->currentPost->ID, 'value_bonus'),
+            'ref'         => postRefAdapter(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['REF'])),
+            'close'       => (int)carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['CLOSE']),
+            'wager'       => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['WAGER']),
+            'number_use'  => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['NUMBER_USE']),
+            'value_bonus' => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['VALUE_BONUS']),
             'thumbnail'   => $thumbnail
         ];
     }
@@ -24,8 +24,8 @@ class Service extends BaseService {
         $bonusesIds = !empty($casinoIds) ? Relative::getAllBonusesCasino($casinoIds[0]) : [];
         return [
             'casino'     => get_casino_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CASINO'])),
-            'type_bonus' => get_type_bonus_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_type_bonus')),
-            'country'    => get_country_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_country')),
+            'type_bonus' => get_type_bonus_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_TYPE_BONUS'])),
+            'country'    => get_country_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_COUNTRY'])),
             'bonuses'    => get_bonus_card_data($bonusesIds)
         ];
     }
