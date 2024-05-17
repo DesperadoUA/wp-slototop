@@ -4,8 +4,8 @@ use BaseService;
 use Relative;
 
 class Service extends BaseService {
-    public $postType = 'bonus';
-    function meta() {
+    public string $postType = 'bonus';
+    function meta():array {
         $casinoIds = carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CASINO']);
         $thumbnail = !empty($casinoIds) ? get_the_post_thumbnail_url($casinoIds[0], 'full') : '';
         return [
@@ -19,7 +19,7 @@ class Service extends BaseService {
             'thumbnail'   => $thumbnail,
         ];
     }
-    function relative() {
+    function relative(): array {
         $casinoIds = carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CASINO']);
         $bonusesIds = !empty($casinoIds) ? Relative::getAllBonusesCasino($casinoIds[0]) : [];
         $currentBonusesIds = [];
