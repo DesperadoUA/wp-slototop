@@ -9,17 +9,17 @@ class Service extends BaseService {
         return [
             'slug'         => $this->postType,
             'post_type'    => $this->postType,
-            'year'         => carbon_get_post_meta($this->currentPost->ID, 'year'),
-            'rating'       => (int)carbon_get_post_meta($this->currentPost->ID, 'rating'),
-            'license'      => carbon_get_post_meta($this->currentPost->ID, 'license'),
-            'number_games' => carbon_get_post_meta($this->currentPost->ID, 'number_games'),
+            'year'         => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['YEAR']),
+            'rating'       => (int)carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RATING']),
+            'license'      => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['LICENSE']),
+            'number_games' => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['NUMBER_GAMES']),
         ];
     }
     function relative() {
         return [
-            'games'   => get_slot_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'slot', 'relative_vendor')),
-            'casino'  => get_casino_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'casino', 'relative_vendor')),
-            'country' => get_country_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_country')),
+            'games'   => get_slot_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'slot', FIELDS_KEY['RELATIVE_VENDOR'])),
+            'casino'  => get_casino_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'casino', FIELDS_KEY['RELATIVE_VENDOR'])),
+            'country' => get_country_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_COUNTRY'])),
         ];
     }
 }
