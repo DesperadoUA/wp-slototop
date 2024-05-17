@@ -1,6 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/wp-config.php';
 include 'functions.php';
+/* test */
 $controllers = [
     'page' => 'pages/index.php',
     'settings' => 'settings/index.php',
