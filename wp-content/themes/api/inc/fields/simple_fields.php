@@ -152,7 +152,7 @@ function input_fields() {
             'container_label' => 'Promo code',
             'label' => 'Promo code',
             'post_types' => ['casino'],
-            'key' => FIELDS_KEY['PROMOCODE'],
+            'key' => FIELDS_KEY['PROMOCOD'],
             'editor' => 'text',
             'default' => ''
         ],

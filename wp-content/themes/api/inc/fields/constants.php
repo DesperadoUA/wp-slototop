@@ -46,7 +46,7 @@ define('FIELDS_KEY', [
     'YEAR'                  => 'year',
     'SITE'                  => 'site',
     'NUMBER_GAMES'          => 'number_games',
-    'PROMOCODE'             => 'promocode',
+    'PROMOCOD'              => 'promocode',
     'RELIABILITY'           => 'reliability',
     'CONVENIENCE_PAYMENTS'  => 'convenience_payments',
     'INTERFACE'             => 'interface',
