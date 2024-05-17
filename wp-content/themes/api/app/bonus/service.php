@@ -22,11 +22,17 @@ class Service extends BaseService {
     function relative() {
         $casinoIds = carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CASINO']);
         $bonusesIds = !empty($casinoIds) ? Relative::getAllBonusesCasino($casinoIds[0]) : [];
+        $currentBonusesIds = [];
+        foreach($bonusesIds as $item) {
+            if($item !== $this->currentPost->ID) {
+                $currentBonusesIds[] = $item;
+            }
+        }
         return [
             'casino'     => get_casino_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CASINO'])),
             'type_bonus' => get_type_bonus_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_TYPE_BONUS'])),
             'country'    => get_country_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_COUNTRY'])),
-            'bonuses'    => get_bonus_card_data($bonusesIds)
+            'bonuses'    => get_bonus_card_data($currentBonusesIds)
         ];
     }
 }
