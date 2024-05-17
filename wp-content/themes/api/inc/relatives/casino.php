@@ -23,7 +23,7 @@ function relative_casino():void {
         Container::make( 'post_meta', __( 'Relative Casino' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_casino', 'Список казино')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_CASINO'], 'Список казино')
                     ->add_options($data)
         ));
 }

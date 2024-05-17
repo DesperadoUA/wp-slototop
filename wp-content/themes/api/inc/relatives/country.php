@@ -23,7 +23,7 @@ function relative_country():void {
         Container::make( 'post_meta', __( 'Relative Country' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_country', 'Список стран')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_COUNTRY'], 'Список стран')
                     ->add_options($data)
         ));
 }

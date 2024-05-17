@@ -23,7 +23,7 @@ function relative_license():void {
         Container::make( 'post_meta', __( 'Relative License' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_license', 'Список лицензий')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_LICENSE'], 'Список лицензий')
                     ->add_options($data)
         ));
 }

@@ -23,7 +23,7 @@ function relative_bonus():void {
         Container::make( 'post_meta', __( 'Relative Bonus' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_bonus', 'Список бонусов')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_BONUS'], 'Список бонусов')
                     ->add_options($data)
         ));
 }

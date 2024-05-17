@@ -23,7 +23,7 @@ function relative_slot():void {
         Container::make( 'post_meta', __( 'Relative Slot' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_slot', 'Список слотов')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_SLOT'], 'Список слотов')
                     ->add_options($data)
         ));
 }

@@ -8,7 +8,7 @@ function ref() {
     Container::make( 'post_meta', __( 'Ref' ) )
     ->show_on_post_type($arrPostTypes)
     ->add_fields(array(
-        Field::make( 'complex', 'ref', 'Ref')
+        Field::make( 'complex', FIELDS_KEY['REF'], 'Ref')
         ->add_fields( array(
                 Field::make('text', 'ref_link', 'Реферальные ссылки'),
             )

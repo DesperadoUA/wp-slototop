@@ -23,7 +23,7 @@ function relative_poker():void {
         Container::make( 'post_meta', __( 'Relative Poker' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_poker', 'Список покер клубов')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_POKER'], 'Список покер клубов')
                     ->add_options($data)
         ));
 }

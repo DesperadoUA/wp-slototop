@@ -451,7 +451,7 @@ function get_public_post_id($post_type, $limit = -1, $executeIds = []) {
         'post_status'    => 'publish',
         'orderby'        => 'date',
         'order'          => 'DESC',
-        'post__not_in'    => $executeIds,
+        'post__not_in'   => $executeIds,
     ));
     if(empty($query->posts)) return $arr_id;
     foreach ($query->posts as $item ) $arr_id[] = $item->ID;

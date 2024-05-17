@@ -7,7 +7,7 @@ function gallery() {
     Container::make( 'post_meta', 'Gallery' ) 
     ->show_on_post_type(['slot']) 
     ->add_fields( array(
-        Field::make( 'complex', 'gallery' ) 
+        Field::make( 'complex', FIELDS_KEY['GALLERY'] ) 
             ->add_fields( array( 
                 Field::make('image', 'src', 'Icon')->set_value_type( 'url' )->set_width( 33 ),
                 Field::make( 'text', 'value_1', 'Alt')->set_width( 33 ), 

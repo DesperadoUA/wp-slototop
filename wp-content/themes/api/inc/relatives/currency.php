@@ -23,7 +23,7 @@ function relative_currency():void {
         Container::make( 'post_meta', __( 'Relative Currency' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_currency', 'Список валют')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_CURRENCY'], 'Список валют')
                     ->add_options($data)
         ));
 }

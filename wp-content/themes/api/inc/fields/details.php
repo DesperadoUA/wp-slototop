@@ -7,7 +7,7 @@ function details() {
     Container::make( 'post_meta', 'Details' ) 
     ->show_on_post_type(['slot']) 
     ->add_fields( array(
-        Field::make( 'complex', 'details' ) 
+        Field::make( 'complex', FIELDS_KEY['DETAILS'] ) 
             ->add_fields( array( 
                 Field::make( 'text', 'value_1', 'Характеристика'), 
                 Field::make( 'text', 'value_2', 'Описание'), 

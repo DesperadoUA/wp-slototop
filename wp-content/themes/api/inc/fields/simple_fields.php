@@ -4,11 +4,11 @@ use Carbon_Fields\Field;
 add_action('carbon_fields_register_fields', 'input_fields');
 function input_fields() {
     $data = [
-          [
+        [
             'container_label' => 'Meta title',
             'label' => 'Meta title',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'meta_title',
+            'key' => FIELDS_KEY['META_TITLE'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -16,7 +16,7 @@ function input_fields() {
             'container_label' => 'Meta description',
             'label' => 'Meta description',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'description',
+            'key' => FIELDS_KEY['DESCRIPTION'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -24,7 +24,7 @@ function input_fields() {
             'container_label' => 'Meta keywords',
             'label' => 'Meta keywords',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'keywords',
+            'key' => FIELDS_KEY['KEYWORDS'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -32,7 +32,7 @@ function input_fields() {
             'container_label' => 'Index',
             'label' => 'Index',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'index_seo',
+            'key' => FIELDS_KEY['INDEX_SEO'],
             'editor' => 'checkbox',
             'default' => true
         ],
@@ -40,7 +40,7 @@ function input_fields() {
             'container_label' => 'Follow',
             'label' => 'Follow',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'follow',
+            'key' => FIELDS_KEY['FOLLOW'],
             'editor' => 'checkbox',
             'default' => true
         ],
@@ -48,7 +48,7 @@ function input_fields() {
             'container_label' => 'Short desc',
             'label' => 'Short desc',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'short_desc',
+            'key' => FIELDS_KEY['SHORT_DESC'],
             'editor' => 'textarea',
             'default' => ''
         ],
@@ -56,7 +56,7 @@ function input_fields() {
             'container_label' => 'H1',
             'label' => 'H1',
             'post_types' => ALL_POST_TYPES,
-            'key' => 'h1',
+            'key' => FIELDS_KEY['H1'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -64,7 +64,7 @@ function input_fields() {
             'container_label' => 'Withdrawal',
             'label' => 'Withdrawal',
             'post_types' => ['casino', 'poker', 'payment'],
-            'key' => 'withdrawal',
+            'key' => FIELDS_KEY['WITHDRAWAL'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -72,7 +72,7 @@ function input_fields() {
             'container_label' => 'Phone',
             'label' => 'Phone',
             'post_types' => ['casino', 'poker'],
-            'key' => 'phone',
+            'key' => FIELDS_KEY['PHONE'],
             'editor' => 'text',
             'default' => '',
         ],
@@ -80,7 +80,7 @@ function input_fields() {
             'container_label' => 'Rating',
             'label' => 'Rating max 100',
             'post_types' => ['casino', 'poker', 'vendor', 'slot'],
-            'key' => 'rating',
+            'key' => FIELDS_KEY['RATING'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -88,7 +88,7 @@ function input_fields() {
             'container_label' => 'Close',
             'label' => 'Close',
             'post_types' => ['casino', 'bonus'],
-            'key' => 'close',
+            'key' => FIELDS_KEY['CLOSE'],
             'editor' => 'checkbox',
             'default' => false
         ],
@@ -96,7 +96,7 @@ function input_fields() {
             'container_label' => 'Min dep',
             'label' => 'Min dep',
             'post_types' => ['casino', 'poker'],
-            'key' => 'min_deposit',
+            'key' => FIELDS_KEY['MIN_DEPOSIT'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -104,7 +104,7 @@ function input_fields() {
             'container_label' => 'Email',
             'label' => 'Email',
             'post_types' => ['casino', 'poker'],
-            'key' => 'email',
+            'key' => FIELDS_KEY['EMAIL'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -112,7 +112,7 @@ function input_fields() {
             'container_label' => 'Min payment',
             'label' => 'Min payment',
             'post_types' => ['casino', 'poker'],
-            'key' => 'min_payments',
+            'key' => FIELDS_KEY['MIN_PAYMENTS'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -120,7 +120,7 @@ function input_fields() {
             'container_label' => 'Chat',
             'label' => 'Chat',
             'post_types' => ['casino', 'poker'],
-            'key' => 'chat',
+            'key' => FIELDS_KEY['CHAT'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -128,7 +128,7 @@ function input_fields() {
             'container_label' => 'Year',
             'label' => 'Year',
             'post_types' => ['casino', 'poker', 'vendor'],
-            'key' => 'year',
+            'key' => FIELDS_KEY['YEAR'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -136,7 +136,7 @@ function input_fields() {
             'container_label' => 'Site',
             'label' => 'Site',
             'post_types' => ['casino', 'poker', 'payment'],
-            'key' => 'site',
+            'key' => FIELDS_KEY['SITE'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -144,7 +144,7 @@ function input_fields() {
             'container_label' => 'Number games',
             'label' => 'Number games',
             'post_types' => ['casino', 'vendor'],
-            'key' => 'number_games',
+            'key' => FIELDS_KEY['NUMBER_GAMES'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -152,7 +152,7 @@ function input_fields() {
             'container_label' => 'Promo code',
             'label' => 'Promo code',
             'post_types' => ['casino'],
-            'key' => 'promocode',
+            'key' => FIELDS_KEY['PROMOCODE'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -160,7 +160,7 @@ function input_fields() {
             'container_label' => 'Надежность',
             'label' => 'Надежность max 100',
             'post_types' => ['casino'],
-            'key' => 'reliability',
+            'key' => FIELDS_KEY['RELIABILITY'],
             'editor' => 'text',
             'default' => '0'
         ],
@@ -168,7 +168,7 @@ function input_fields() {
             'container_label' => 'Удобство платежей',
             'label' => 'Удобство платежей max 100',
             'post_types' => ['casino'],
-            'key' => 'convenience_payments',
+            'key' => FIELDS_KEY['CONVENIENCE_PAYMENTS'],
             'editor' => 'text',
             'default' => '0'
         ],
@@ -176,7 +176,7 @@ function input_fields() {
             'container_label' => 'Интерфейс',
             'label' => 'Интерфейс max 100',
             'post_types' => ['casino'],
-            'key' => 'interface',
+            'key' => FIELDS_KEY['INTERFACE'],
             'editor' => 'text',
             'default' => '0'
         ],
@@ -184,7 +184,7 @@ function input_fields() {
             'container_label' => 'Support',
             'label' => 'Support max 100',
             'post_types' => ['casino'],
-            'key' => 'support',
+            'key' => FIELDS_KEY['SUPPORT'],
             'editor' => 'text',
             'default' => '0'
         ],
@@ -192,7 +192,7 @@ function input_fields() {
             'container_label' => 'Популярность',
             'label' => 'Популярность',
             'post_types' => ['casino'],
-            'key' => 'popularity',
+            'key' => FIELDS_KEY['POPULARITY'],
             'editor' => 'text',
             'default' => '0'
         ],
@@ -200,7 +200,7 @@ function input_fields() {
             'container_label' => 'Бонусы и акции',
             'label' => 'Бонусы и акции max 100',
             'post_types' => ['casino'],
-            'key' => 'shares',
+            'key' => FIELDS_KEY['SHARES'],
             'editor' => 'text',
             'default' => '0'
         ],
@@ -208,7 +208,7 @@ function input_fields() {
             'container_label' => 'Sub title',
             'label' => 'Sub title',
             'post_types' => ['country', 'currency', 'language', 'license', 'technology', 'type_payment', 'type_bonus'],
-            'key' => 'sub_title',
+            'key' => FIELDS_KEY['SUB_TITLE'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -216,7 +216,7 @@ function input_fields() {
             'container_label' => 'License',
             'label' => 'License',
             'post_types' => ['vendor'],
-            'key' => 'license',
+            'key' => FIELDS_KEY['LICENSE'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -224,7 +224,7 @@ function input_fields() {
             'container_label' => 'Commission',
             'label' => 'Commission',
             'post_types' => ['payment'],
-            'key' => 'commission',
+            'key' => FIELDS_KEY['COMMISSION'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -232,7 +232,7 @@ function input_fields() {
             'container_label' => 'Withdrawal period',
             'label' => 'Withdrawal period',
             'post_types' => ['payment'],
-            'key' => 'withdrawal_period',
+            'key' => FIELDS_KEY['WITHDRAWAL_PERIOD'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -240,7 +240,7 @@ function input_fields() {
             'container_label' => 'Jackpot',
             'label' => 'Jackpot',
             'post_types' => ['slot'],
-            'key' => 'jackpot',
+            'key' => FIELDS_KEY['JACKPOT'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -248,7 +248,7 @@ function input_fields() {
             'container_label' => 'Risk game',
             'label' => 'Risk game',
             'post_types' => ['slot'],
-            'key' => 'risk_game',
+            'key' => FIELDS_KEY['RISK_GAME'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -256,7 +256,7 @@ function input_fields() {
             'container_label' => 'Max gain',
             'label' => 'Max gain',
             'post_types' => ['slot'],
-            'key' => 'max_gain',
+            'key' => FIELDS_KEY['MAX_GAIN'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -264,7 +264,7 @@ function input_fields() {
             'container_label' => 'Max bet',
             'label' => 'Max bet',
             'post_types' => ['slot'],
-            'key' => 'max_bet',
+            'key' => FIELDS_KEY['MAX_BET'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -272,7 +272,7 @@ function input_fields() {
             'container_label' => 'Min bet',
             'label' => 'Min bet',
             'post_types' => ['slot'],
-            'key' => 'min_bet',
+            'key' => FIELDS_KEY['MIN_BET'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -280,7 +280,7 @@ function input_fields() {
             'container_label' => 'Iframe',
             'label' => 'Iframe',
             'post_types' => ['slot'],
-            'key' => 'iframe',
+            'key' => FIELDS_KEY['IFRAME'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -288,7 +288,7 @@ function input_fields() {
             'container_label' => 'Wager',
             'label' => 'Wager',
             'post_types' => ['bonus'],
-            'key' => 'wager',
+            'key' => FIELDS_KEY['WAGER'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -296,7 +296,7 @@ function input_fields() {
             'container_label' => 'Number use',
             'label' => 'Number use',
             'post_types' => ['bonus'],
-            'key' => 'number_use',
+            'key' => FIELDS_KEY['NUMBER_USE'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -304,7 +304,7 @@ function input_fields() {
             'container_label' => 'Value bonus',
             'label' => 'Value bonus',
             'post_types' => ['bonus'],
-            'key' => 'value_bonus',
+            'key' => FIELDS_KEY['VALUE_BONUS'],
             'editor' => 'text',
             'default' => ''
         ],
@@ -312,7 +312,7 @@ function input_fields() {
             'container_label' => 'Rakeback',
             'label' => 'Rakeback',
             'post_types' => ['poker'],
-            'key' => 'rakeback',
+            'key' => FIELDS_KEY['RAKEBACK'],
             'editor' => 'text',
             'default' => ''
         ],

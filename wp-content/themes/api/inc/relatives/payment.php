@@ -23,7 +23,7 @@ function relative_payment():void {
         Container::make( 'post_meta', __( 'Relative Payment' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_payment', 'Список платежек')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_PAYMENT'], 'Список платежек')
                     ->add_options($data)
         ));
 }

@@ -6,7 +6,7 @@ use Relative;
 class Service extends BaseService {
     public $postType = 'bonus';
     function meta() {
-        $casinoIds = carbon_get_post_meta($this->currentPost->ID, 'relative_casino');
+        $casinoIds = carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CASINO']);
         $thumbnail = !empty($casinoIds) ? get_the_post_thumbnail_url($casinoIds[0], 'full') : '';
         return [
             'slug'        => $this->postType,
@@ -20,10 +20,10 @@ class Service extends BaseService {
         ];
     }
     function relative() {
-        $casinoIds = carbon_get_post_meta($this->currentPost->ID, 'relative_casino');
+        $casinoIds = carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CASINO']);
         $bonusesIds = !empty($casinoIds) ? Relative::getAllBonusesCasino($casinoIds[0]) : [];
         return [
-            'casino'     => get_casino_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_casino')),
+            'casino'     => get_casino_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CASINO'])),
             'type_bonus' => get_type_bonus_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_type_bonus')),
             'country'    => get_country_card_data(carbon_get_post_meta($this->currentPost->ID, 'relative_country')),
             'bonuses'    => get_bonus_card_data($bonusesIds)

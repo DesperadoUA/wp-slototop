@@ -23,7 +23,7 @@ function relative_language():void {
         Container::make( 'post_meta', __( 'Relative Language' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_language', 'Список языков')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_LANGUAGE'], 'Список языков')
                     ->add_options($data)
         ));
 }

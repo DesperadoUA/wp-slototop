@@ -23,7 +23,7 @@ function relative_vendor():void {
         Container::make( 'post_meta', __( 'Relative Vendor' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_vendor', 'Список производителей')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_VENDOR'], 'Список производителей')
                     ->add_options($data)
         ));
 }

@@ -23,7 +23,7 @@ function relative_technology():void {
         Container::make( 'post_meta', __( 'Relative Technology' ) )
             ->show_on_post_type($arrPostTypes)
             ->add_fields(array(
-                Field::make('multiselect', 'relative_technology', 'Список технологий')
+                Field::make('multiselect', FIELDS_KEY['RELATIVE_TECHNOLOGY'], 'Список технологий')
                     ->add_options($data)
         ));
 }

@@ -8,7 +8,7 @@ function img_fields() {
             'container_label' => 'Banner',
             'label' => 'Banner',
             'post_types' => ['slot'],
-            'key' => 'banner',
+            'key' => FIELDS_KEY['BANNER'],
             'editor' => 'image'
         ]
     ];
