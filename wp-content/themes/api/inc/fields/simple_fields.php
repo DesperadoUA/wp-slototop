@@ -324,4 +324,79 @@ function input_fields() {
             Field::make($item['editor'], $item['key'], $item['label'])->set_default_value($item['default'])
         ));
     }
+
+    $categoryFields = [
+        [
+            'container_label' => 'Meta title',
+            'label' => 'Meta title',
+            'taxonomies' => ALL_TAXONOMIES,
+            'key' => FIELDS_KEY['META_TITLE'],
+            'editor' => 'text',
+            'default' => ''
+        ],
+        [
+            'container_label' => 'Meta description',
+            'label' => 'Meta description',
+            'taxonomies' => ALL_TAXONOMIES,
+            'key' => FIELDS_KEY['DESCRIPTION'],
+            'editor' => 'text',
+            'default' => ''
+        ],
+        [
+            'container_label' => 'Meta keywords',
+            'label' => 'Meta keywords',
+            'taxonomies' => ALL_TAXONOMIES,
+            'key' => FIELDS_KEY['KEYWORDS'],
+            'editor' => 'text',
+            'default' => ''
+        ],
+        [
+            'container_label' => 'Index',
+            'label' => 'Index',
+            'taxonomies' => ALL_TAXONOMIES,
+            'key' => FIELDS_KEY['INDEX_SEO'],
+            'editor' => 'checkbox',
+            'default' => true
+        ],
+        [
+            'container_label' => 'Follow',
+            'label' => 'Follow',
+            'taxonomies' => ALL_TAXONOMIES,
+            'key' => FIELDS_KEY['FOLLOW'],
+            'editor' => 'checkbox',
+            'default' => true
+        ],
+        [
+            'container_label' => 'Short desc',
+            'label' => 'Short desc',
+            'taxonomies' => ALL_TAXONOMIES,
+            'key' => FIELDS_KEY['SHORT_DESC'],
+            'editor' => 'textarea',
+            'default' => ''
+        ],
+        [
+            'container_label' => 'H1',
+            'label' => 'H1',
+            'taxonomies' => ALL_TAXONOMIES,
+            'key' => FIELDS_KEY['H1'],
+            'editor' => 'text',
+            'default' => ''
+        ],
+        [
+            'container_label' => 'Content',
+            'label' => 'Content',
+            'taxonomies' => ALL_TAXONOMIES,
+            'key' => FIELDS_KEY['CONTENT'],
+            'editor' => 'rich_text',
+            'default' => ''
+        ],
+    ];
+    foreach ($categoryFields as $item) {
+        Container::make('term_meta', $item['container_label'])
+        ->show_on_taxonomy($item['taxonomies'])
+        ->add_fields(array(
+            Field::make($item['editor'], $item['key'], $item['label'])->set_default_value($item['default'])
+            )
+        );
+    }
 }

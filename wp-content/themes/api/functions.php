@@ -1,12 +1,15 @@
 <?php
 include 'inc/utils.php';
-define('ROOT_DIR', __DIR__);
-define('ALL_POST_TYPES', ['posts', 'page', 'casino', 'slot', 'bonus', 'country', 'currency', 'language', 'license', 'payment', 'poker', 'technology', 'type_bonus', 'type_payment', 'vendor']);
-define('SUCCESS_STATUS', 'ok');
-define('ERROR_STATUS', 'error');
+const ROOT_DIR = __DIR__;
+const ALL_POST_TYPES = ['posts', 'page', 'casino', 'slot', 'bonus', 'country', 'currency', 'language', 'license', 'payment', 'poker', 'technology',
+    'type_bonus', 'type_payment', 'vendor'];
+const ALL_TAXONOMIES = ['slot-tax'];
+const SUCCESS_STATUS = 'ok';
+const ERROR_STATUS = 'error';
 define('HOST_URL', get_site_url( null, '', 'https' ));
 include 'inc/headers.php';
 include 'inc/post_types/index.php';
+include 'inc/taxonomy/slot.php';
 include 'inc/fields/index.php';
 include 'inc/relatives/index.php';
 define('AUTHOR_PAGE_ID', url_to_post_id('author', 'page'));
@@ -22,4 +25,4 @@ add_filter('wp_insert_post_data', function ($data, $postarr) {
     $data['post_content'] = wpautop($data['post_content']); 
     return $data; }, 
     10, 2);
-define('APP_DIR', __DIR__.'/app/');
+const APP_DIR = __DIR__ . '/app/';
