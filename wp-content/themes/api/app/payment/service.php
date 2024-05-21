@@ -5,7 +5,7 @@ use Relative;
 
 class Service extends BaseService {
     public $postType = 'payment';
-    function meta() {
+    function meta(): array {
         return [
             'slug'              => $this->postType,
             'post_type'         => $this->postType,
@@ -15,7 +15,7 @@ class Service extends BaseService {
             'withdrawal_period' => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['WITHDRAWAL_PERIOD']),
         ];
     }
-    function relative() {
+    function relative(): array {
         return [
             'casino'       => get_casino_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'casino', FIELDS_KEY['RELATIVE_PAYMENT'])),
             'currency'     => get_currency_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CURRENCY'])),

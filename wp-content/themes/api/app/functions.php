@@ -59,13 +59,50 @@ class Relative {
         }
         return $postsIds;
     }
+    static function getPostsFromTaxByRating($settings) {
+        $slug = '';
+        $taxonomy = '';
+        $limit = array_key_exists('limit', $settings) ? $settings['limit'] : 200;
+        $post_type = array_key_exists('post_type', $settings) ? $settings['post_type'] : 'slot';
+        $executeIds = array_key_exists('execute_ids', $settings) ? $settings['execute_ids'] : [];
+        if(array_key_exists('slug', $settings)) $slug = $settings['slug'];
+        else return [];
+        if(array_key_exists('taxonomy', $settings)) $taxonomy = $settings['taxonomy'];
+        else return [];
+        $tax = get_term_by( 'slug', $slug, $taxonomy );
+        if(!$tax) return [];
+        $query = new WP_Query( array(
+            'posts_per_page' => $limit,
+            'post_type'      => $post_type,
+            'post_status'    => 'publish',
+            'orderby'        => 'meta_value_num',
+            'order'          => 'DESC',
+            'post__not_in'    => $executeIds,
+            'meta_query' => array(
+                array(
+                    'key' => '_rating',
+                )
+            ),
+            'tax_query' => array(
+                array(
+                    'taxonomy' => $taxonomy,
+                    'field'    => 'slug',
+                    'terms'    => $tax->slug
+                )
+            )
+        ) );
+        $ids = [];
+        foreach ($query->posts as $post) $ids[] = $post->ID;
+        return $ids;
+    }
 }
 class BaseService  {
     public $currentPost;
 	function __construct($id) {
         $this->currentPost = get_post($id);
     }
-    function commonData() {
+    function commonData(): array
+    {
         return [
             'id'           => $this->currentPost->ID,
             'status'       => 'public',
@@ -87,13 +124,61 @@ class BaseService  {
             'author_name'  => carbon_get_post_meta(AUTHOR_PAGE_ID, FIELDS_KEY['H1']),
         ];
     }
-    function show() {
+    function show(): array
+    {
         return array_merge($this->commonData(), $this->meta(), $this->relative());
     }
-    function meta() {
+    function meta(): array
+    {
         return [];
     }
-    function relative() {
+    function relative(): array
+    {
+        return [];
+    }
+}
+class BaseServiceTaxonomy {
+    public $currentTax;
+    public $taxonomy;
+    function __construct($slug, $taxonomy) {
+        $this->currentTax = get_term_by( 'slug', $slug, $taxonomy );
+        $this->taxonomy = $taxonomy;
+    }
+    function commonData(): array
+    {
+        $content = carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['CONTENT']);
+        return [
+            'id'           => $this->currentTax->term_id,
+            'status'       => 'public',
+            'title'        => $this->currentTax->name,
+            'meta_title'   => carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['META_TITLE']),
+            'description'  => carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['DESCRIPTION']),
+            'keywords'     => carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['KEYWORDS']),
+            'h1'           => carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['H1']),
+            'content'      => $content,
+            'amp_content'  => parseAmpContent($content),
+            'thumbnail'    => '',
+            'created_at'   => "2021-10-05 00:00:00",
+            'updated_at'   => "2021-10-05 00:00:00",
+            'index_seo'    => (int)carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['INDEX_SEO']),
+            'follow'       => (int)carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['FOLLOW']),
+            'short_desc'   => carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['SHORT_DESC']),
+            'faq'          => carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['FAQ']),
+            'permalink'    => $this->currentTax->slug,
+            'hreflang'     => carbon_get_term_meta($this->currentTax->term_id, FIELDS_KEY['HEADER_META_LANG']),
+            'author_name'  => carbon_get_post_meta(AUTHOR_PAGE_ID, FIELDS_KEY['H1']),
+        ];
+    }
+    function show(): array
+    {
+        return array_merge($this->commonData(), $this->meta(), $this->relative());
+    }
+    function meta(): array
+    {
+        return [];
+    }
+    function relative(): array
+    {
         return [];
     }
 }

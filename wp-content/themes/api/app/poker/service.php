@@ -4,7 +4,7 @@ use BaseService;
 
 class Service extends BaseService {
     public $postType = 'poker';
-    function meta() {
+    function meta(): array {
         return [
             'slug'         => $this->postType,
             'post_type'    => $this->postType,
@@ -22,7 +22,7 @@ class Service extends BaseService {
             'reviews'      => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['REVIEWS']),
         ];
     }
-    function relative() {
+    function relative(): array {
         return [
             'type_payment' => get_type_payment_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_TYPE_PAYMENT'])),
             'technology'   => get_technology_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_TECHNOLOGY'])),

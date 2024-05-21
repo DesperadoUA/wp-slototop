@@ -4,7 +4,7 @@ use BaseService;
 
 class Service extends BaseService {
     public $postType = 'casino';
-    function meta() {
+    function meta(): array {
         return [
             'slug'                 => $this->postType,
             'post_type'            => $this->postType,
@@ -31,7 +31,7 @@ class Service extends BaseService {
             'reviews'              => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['REVIEWS'])
         ];
     }
-    function relative() {
+    function relative(): array {
         $casinoIds = get_public_post_id_by_rating('casino', 5);
         $sidebarCasinoIds = get_public_post_id_by_rating('casino', 10);
         $sidebarBonusIds = get_public_post_id('bonus', 5);

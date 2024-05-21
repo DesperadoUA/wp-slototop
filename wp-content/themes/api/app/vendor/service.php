@@ -5,7 +5,7 @@ use Relative;
 
 class Service extends BaseService {
     public $postType = 'vendor';
-    function meta() {
+    function meta(): array {
         return [
             'slug'         => $this->postType,
             'post_type'    => $this->postType,
@@ -15,7 +15,7 @@ class Service extends BaseService {
             'number_games' => carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['NUMBER_GAMES']),
         ];
     }
-    function relative() {
+    function relative(): array {
         return [
             'games'   => get_slot_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'slot', FIELDS_KEY['RELATIVE_VENDOR'])),
             'casino'  => get_casino_card_data(Relative::getRelativeOrderByRating($this->currentPost->ID, 'casino', FIELDS_KEY['RELATIVE_VENDOR'])),
