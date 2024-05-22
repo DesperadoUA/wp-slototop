@@ -3,11 +3,11 @@ include APP_DIR.'/pages/service.php';
 use pages\service\Service;
 $post_id = $_POST['url'] === 'main' 
     ? MAIN_PAGE_ID 
-    : url_to_post_id($_POST['url'], $_POST['type']);
-if($post_id === 0) $response['status'] = ERROR_STATUS;
+    : url_to_post_id($_POST['url'], 'page'); 
+if($post_id === 0) $response['confirm'] = ERROR_STATUS;
 else{
     $page = new Service($post_id);
-    $response['status'] = SUCCESS_STATUS;
+    $response['confirm'] = SUCCESS_STATUS;
     switch ($post_id) {
         case AUTHOR_PAGE_ID: {
             $response['body'] = $page->author();
@@ -31,6 +31,14 @@ else{
         }
         case MAIN_PAGE_ID: {
             $response['body'] = $page->main();
+            break;
+        }
+        case GAMES_PAGE_ID: {
+            $response['body'] = $page->games();
+            break;
+        }
+        case POKER_PAGE_ID: {
+            $response['body'] = $page->poker();
             break;
         }
         default: {

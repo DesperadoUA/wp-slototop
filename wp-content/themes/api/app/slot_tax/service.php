@@ -13,13 +13,15 @@ class Service extends BaseServiceTaxonomy
     }
     function relative(): array
     {
+        $taxonomies = get_terms( array( 'taxonomy' => 'slot-tax' ) );
         $settings = [
             'slug' => $this->currentTax->slug,
             'post_type' => 'slot',
             'taxonomy' => $this->taxonomy
         ];
         return [
-            'posts' => get_slot_card_data(Relative::getPostsFromTaxByRating($settings))
+            'posts'    => get_slot_card_data(Relative::getPostsFromTaxByRating($settings)),
+            'category' => get_taxonomy_card($taxonomies, 'games'),
         ];
     }
 }

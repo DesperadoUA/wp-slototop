@@ -13,8 +13,10 @@ class Service extends BaseService {
         ];
     }
     function relative(): array {
+        $taxonomies = get_terms( array( 'taxonomy' => 'slot-tax' ) );
         return [
             'posts' => get_bonus_card_data(Relative::getRelative($this->currentPost->ID, 'bonus', FIELDS_KEY['RELATIVE_TYPE_BONUS'])),
+            'bonus_type' => get_taxonomy_card($taxonomies, 'games'),
         ];
     }
 }

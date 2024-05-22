@@ -7,4 +7,3 @@ $response['confirm'] = SUCCESS_STATUS;
 $post = new Service('ruletki', 'slot-tax');
 $response['body'] = $post->show();
 echo json_encode($response);
-

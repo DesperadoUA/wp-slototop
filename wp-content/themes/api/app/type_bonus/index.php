@@ -1,11 +1,11 @@
 <?php
 include APP_DIR.'/type_bonus/service.php';
 use type_bonus\service\Service;
-$post_id = url_to_post_id($_POST['url'], $_POST['type']);
-if($post_id === 0) $response['status'] = ERROR_STATUS;
+$post_id = url_to_post_id($_POST['url'], 'type_bonus');
+if($post_id === 0) $response['confirm'] = ERROR_STATUS;
 else {
     $post = new Service($post_id);
-    $response['status'] = SUCCESS_STATUS;
+    $response['confirm'] = SUCCESS_STATUS;
     $response['body'] = $post->show();
 }
 echo json_encode($response);

@@ -1,6 +1,7 @@
 <?php
 namespace casino\service;
 use BaseService;
+use Relative;
 
 class Service extends BaseService {
     public $postType = 'casino';
@@ -33,6 +34,7 @@ class Service extends BaseService {
     }
     function relative(): array {
         $casinoIds = get_public_post_id_by_rating('casino', 5);
+        $bonusesIds = Relative::getAllBonusesCasino($this->currentPost->ID);
         $sidebarCasinoIds = get_public_post_id_by_rating('casino', 10);
         $sidebarBonusIds = get_public_post_id('bonus', 5);
         $sidebarSlotIds = get_public_post_id_by_rating('slot', 5);
@@ -45,7 +47,7 @@ class Service extends BaseService {
             'language'     => get_language_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_LANGUAGE'])),
             'currency'     => get_currency_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_CURRENCY'])),
             'country'      => get_country_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_COUNTRY'])),
-            'bonuses'      => get_bonus_card_data(carbon_get_post_meta($this->currentPost->ID, FIELDS_KEY['RELATIVE_BONUS'])),
+            'bonuses'      => get_bonus_card_data($bonusesIds),
             'casino'       => get_casino_card_data($casinoIds),
             'sidebar'      => [
                 'casino'  => get_casino_sidebar_card_data($sidebarCasinoIds),

@@ -18,6 +18,7 @@ define('BONUSES_PAGE_ID', url_to_post_id('bonuses', 'page'));
 define('GAMES_PAGE_ID', url_to_post_id('games', 'page'));
 define('VENDORS_PAGE_ID', url_to_post_id('vendors', 'page'));
 define('PAYMENTS_PAGE_ID', url_to_post_id('payments', 'page'));
+define('POKER_PAGE_ID', url_to_post_id('poker', 'page'));
 define('MAIN_PAGE_ID', get_option('page_on_front'));
 add_theme_support( 'post-thumbnails' );
 add_theme_support('menus');

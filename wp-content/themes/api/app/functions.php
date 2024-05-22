@@ -344,13 +344,15 @@ function get_slot_card_data($arr_id) {
         if(!empty($vendorsIds)) {
             $vendorPost = get_post( $vendorsIds[0] );
             $vendor = [
-                'title' => $vendorPost->post_title
+                'title' => $vendorPost->post_title,
+                'permalink' => '/vendor/'.$vendorPost->name
             ]; 
         }
         $data[] = [
             'title'     => get_the_title($item),
             'permalink' => "/game/".$slotPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full'),
+            'rating'    => (int)carbon_get_post_meta($item, 'rating'),
             'vendor'    => $vendor
         ];
     }
@@ -503,6 +505,17 @@ function get_vendor_card_data($arr_id) {
             'title'     => get_the_title($item),
             'permalink' => "/vendor/".$paymentPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
+        ];
+    }
+    return $data;
+}
+function get_taxonomy_card($arr_post, $slug) {
+    $data = [];
+    foreach ($arr_post as $item) {
+        $data[] = [
+            'title'     => $item->name,
+            'permalink' => '/'.$slug.'/'.$item->slug,
+            'thumbnail' => ""
         ];
     }
     return $data;

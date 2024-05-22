@@ -58,4 +58,20 @@ class Service extends BaseService {
         ];
         return array_merge($this->commonData(), $this->meta(), $data);
     }
+    function games(): array {
+        $slotIds = get_public_post_id_by_rating('slot', 200);
+        $taxonomies = get_terms( array( 'taxonomy' => 'slot-tax' ) );
+        $data = [
+           'games' => get_slot_card_data($slotIds),
+           'category' => get_taxonomy_card($taxonomies, 'games'),
+        ];
+        return array_merge($this->commonData(), $this->meta(), $data);
+    }
+    function poker(): array {
+        $pokerIds = get_public_post_id_by_rating('poker', 200);
+        $data = [
+            'poker' => get_poker_card_data($pokerIds)
+        ];
+        return array_merge($this->commonData(), $this->meta(), $data);
+    }
 }

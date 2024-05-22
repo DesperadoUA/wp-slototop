@@ -2,7 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT'].'/wp-config.php';
 include 'functions.php';
 $controllers = [
-    'page' => 'pages/index.php',
+    'pages' => 'pages/index.php',
     'settings' => 'settings/index.php',
     'options' => 'options/index.php',
     'casino' => 'casino/index.php',
@@ -16,13 +16,13 @@ $controllers = [
     'language' => 'language/index.php',
     'license' => 'license/index.php',
     'technology' => 'technology/index.php',
-    'type_payment' => 'type_payment/index.php',
-    'type_bonus' => 'type_bonus/index.php',
+    'type-payment' => 'type_payment/index.php',
+    'type-bonus' => 'type_bonus/index.php',
     'games' => 'slot_tax/index.php'
 ];
 if(key_exists($_POST['type'], $controllers)) {
     include $controllers[$_POST['type']];
 } else {
-    $response['status'] = ERROR_STATUS;
+    $response['confirm'] = ERROR_STATUS;
     echo json_encode($response);
 }
