@@ -21,6 +21,7 @@ const ALL_TAXONOMIES = ['slot-tax'];
 const SUCCESS_STATUS = 'ok';
 const ERROR_STATUS = 'error';
 define('HOST_URL', get_site_url( null, '', 'https' ));
+define('DEFAULT_IMG', HOST_URL.'/wp-content/themes/api/assets/img/default.jpg');
 include 'inc/headers.php';
 include 'inc/post_types/index.php';
 include 'inc/taxonomy/slot.php';

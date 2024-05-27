@@ -300,21 +300,21 @@ function getSettings() {
         ],
     ];
 }
-function search($search_world) {
+function search($word) {
 	$data = [];
     $query = new WP_Query( array(
         'posts_per_page' => 10,
 		'post_type' => array_keys(POSTS_SLUG),
-		's' => $search_world,
+		's' => $word,
     ));
     if(!empty($query->posts)) {
         foreach ($query->posts as $item) {
+            $thumbnail = (string)get_the_post_thumbnail_url($item->ID, 'full');
             $data[] = [
                 'permalink' => "/".POSTS_SLUG[$item->post_type]."/".$item->post_name,
                 'title'     => $item->post_title,
-                'thumbnail' => (string)get_the_post_thumbnail_url($item->ID, 'full'),
+                'thumbnail' => empty($thumbnail) ? DEFAULT_IMG : $thumbnail
             ];
-    
         }
     }
     return $data;
