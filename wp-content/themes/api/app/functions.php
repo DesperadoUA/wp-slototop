@@ -182,6 +182,26 @@ class BaseServiceTaxonomy {
         return [];
     }
 }
+class Cash {
+    public static function get($url) {
+        global $wpdb;
+        $result = $wpdb->get_results("SELECT data FROM `cash` WHERE url = '{$url}'");
+        return count($result) ? $result[0]->data : [];
+    }
+    public static function store($url, $data) {
+        global $wpdb;
+        $wpdb->query(
+            $wpdb->prepare(
+                "INSERT INTO `cash` ( url, data ) VALUES ( %s, %s )",
+                $url,
+                $data
+            )
+        );
+    }
+    public static function deleteAll() {
+
+    }
+}
 /* adapters */
 function optionsRefAdapter($arr) {
     $data = [];
@@ -279,6 +299,40 @@ function getSettings() {
             'value' => carbon_get_theme_option( SETTINGS_KEYS['SOCIAL_LINKS_AUTHOR'] ),
         ],
     ];
+}
+function search($search_world) {
+	$data = [];
+    $query = new WP_Query( array(
+        'posts_per_page' => 10,
+		'post_type' => array_keys(POSTS_SLUG),
+		's' => $search_world,
+    ));
+    if(!empty($query->posts)) {
+        foreach ($query->posts as $item) {
+            $data[] = [
+                'permalink' => "/".POSTS_SLUG[$item->post_type]."/".$item->post_name,
+                'title'     => $item->post_title,
+                'thumbnail' => (string)get_the_post_thumbnail_url($item->ID, 'full'),
+            ];
+    
+        }
+    }
+    return $data;
+}
+function get_sitemap_by_arr_posts($posts, $priority) {
+    if(empty($posts)) return [];
+    $data = [];
+    foreach ($posts as $item) {
+        $slug = array_key_exists($item->post_type, POSTS_SLUG) ? "/".POSTS_SLUG[$item->post_type]."/" : "/";
+        $url = $item->post_name === 'main' ? '/' : $item->post_name;
+        $data[] = [
+            'url'        => $slug.$url,
+            'lastmod'    => substr($item->post_modified, 0, 10),
+            'changefreq' => 'daily',
+            'priority'   => $priority
+        ];
+    }
+    return $data;
 }
 /* Options */
 function getOptions() {
@@ -476,7 +530,7 @@ function get_language_card_data($arr_id) {
         $paymentPost = get_post( $item );
         $data[] = [
             'title'     => get_the_title($item),
-            'permalink' => "/language/".$paymentPost->post_name,
+            'permalink' => "/lang/".$paymentPost->post_name,
             'thumbnail' => (string)get_the_post_thumbnail_url($item, 'full')
         ];
     }

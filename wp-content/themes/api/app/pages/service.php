@@ -74,4 +74,11 @@ class Service extends BaseService {
         ];
         return array_merge($this->commonData(), $this->meta(), $data);
     }
+    function sitemap(): array {
+        $posts = get_sitemap_by_arr_posts(get_posts( ['numberposts' => -1, 'post_type' => array_keys(POSTS_SLUG)] ), 0.7);
+        $pages = get_sitemap_by_arr_posts(get_pages(['exclude' => [SITEMAP_PAGE_ID]]), 0.9);
+        return [
+            'posts' => array_merge($pages, $posts)
+        ];
+    }
 }

@@ -1,8 +1,22 @@
 <?php
 include 'inc/utils.php';
 const ROOT_DIR = __DIR__;
-const ALL_POST_TYPES = ['posts', 'page', 'casino', 'slot', 'bonus', 'country', 'currency', 'language', 'license', 'payment', 'poker', 'technology',
-    'type_bonus', 'type_payment', 'vendor'];
+const POSTS_SLUG = [
+    'casino'       => 'casino', 
+    'slot'         => 'game', 
+    'bonus'        => 'bonus', 
+    'country'      => 'country',
+    'currency'     => 'currency',
+    'language'     => 'lang', 
+    'license'      => 'license', 
+    'payment'      => 'payment', 
+    'poker'        => 'poker', 
+    'technology'   => 'technology',
+    'type_bonus'   => 'type-bonus', 
+    'type_payment' => 'type-payment', 
+    'vendor'       => 'vendor'
+];
+define('ALL_POST_TYPES', array_merge(['posts', 'page'], array_keys(POSTS_SLUG)));
 const ALL_TAXONOMIES = ['slot-tax'];
 const SUCCESS_STATUS = 'ok';
 const ERROR_STATUS = 'error';
@@ -19,6 +33,7 @@ define('GAMES_PAGE_ID', url_to_post_id('games', 'page'));
 define('VENDORS_PAGE_ID', url_to_post_id('vendors', 'page'));
 define('PAYMENTS_PAGE_ID', url_to_post_id('payments', 'page'));
 define('POKER_PAGE_ID', url_to_post_id('poker', 'page'));
+define('SITEMAP_PAGE_ID', url_to_post_id('sitemap', 'page'));
 define('MAIN_PAGE_ID', get_option('page_on_front'));
 add_theme_support( 'post-thumbnails' );
 add_theme_support('menus');

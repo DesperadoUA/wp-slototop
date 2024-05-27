@@ -41,6 +41,10 @@ else{
             $response['body'] = $page->poker();
             break;
         }
+        case SITEMAP_PAGE_ID: {
+            $response['body'] = $page->sitemap();
+            break;
+        }
         default: {
             $response['body'] = $page->show();
         }
