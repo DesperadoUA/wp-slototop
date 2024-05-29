@@ -1,5 +1,6 @@
 <?php
 include 'inc/utils.php';
+include 'inc/cash.php';
 const ROOT_DIR = __DIR__;
 const POSTS_SLUG = [
     'casino'       => 'casino', 
@@ -43,3 +44,7 @@ add_filter('wp_insert_post_data', function ($data, $postarr) {
     return $data; }, 
     10, 2);
 const APP_DIR = __DIR__ . '/app/';
+function post_update():void {
+    Cash::clear();
+}
+add_action( "post_updated", "post_update" );
