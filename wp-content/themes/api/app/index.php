@@ -19,7 +19,8 @@ $controllers = [
     'type-payment' => 'type_payment/index.php',
     'type-bonus' => 'type_bonus/index.php',
     'games' => 'slot_tax/index.php',
-    'search' => 'search/index.php'
+    'search' => 'search/index.php',
+    'loading' => 'loading/index.php'
 ];
 if(key_exists($_POST['type'], $controllers)) {
     include $controllers[$_POST['type']];
