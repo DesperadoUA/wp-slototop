@@ -119,7 +119,7 @@ function input_fields() {
         [
             'container_label' => 'Chat',
             'label' => 'Chat',
-            'post_types' => ['casino', 'poker'],
+            'post_types' => ['casino'],
             'key' => FIELDS_KEY['CHAT'],
             'editor' => 'text',
             'default' => ''

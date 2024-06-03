@@ -56,6 +56,7 @@ function rewrite_game_category()
 {
     $game_category_args = get_taxonomy('slot-tax');
     $game_category_args->show_admin_column = true;
+    $game_category_args->rewrite = [];
     $game_category_args->rewrite['slug'] = 'slot-tax';
     $game_category_args->rewrite['with_front'] = false;
     register_taxonomy('slot-tax', array('slot'), (array)$game_category_args);

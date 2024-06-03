@@ -379,7 +379,7 @@ function get_slot_card_data($arr_id) {
             $vendorPost = get_post( $vendorsIds[0] );
             $vendor = [
                 'title' => $vendorPost->post_title,
-                'permalink' => '/vendor/'.$vendorPost->name
+                'permalink' => '/vendor/'.$vendorPost->post_name
             ]; 
         }
         $data[] = [
